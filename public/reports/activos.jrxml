@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="activos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="2" bottomMargin="2" uuid="1ad372c9-2037-497c-8a80-0154dc97150f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="inventario_reporte"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="test" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT DISTINCT activos.codigo,
+		activos.act_des,
+		activos.act_des_det,
+		activos.act_can,
+		activos.act_par_cod,
+		activos.act_estado,
+		activos.act_ofc_cod,
+		oficina.ofc_des
+		FROM act.activos as activos
+		JOIN act.oficina as oficina
+		ON activos.act_ofc_cod = oficina.ofc_cod
+		WHERE activos.act_ofc_cod = $P{test}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo"/>
+	</field>
+	<field name="act_des" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_des"/>
+	</field>
+	<field name="act_des_det" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_des_det"/>
+	</field>
+	<field name="act_can" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="act_can"/>
+	</field>
+	<field name="act_par_cod" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_par_cod"/>
+	</field>
+	<field name="act_estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_estado"/>
+	</field>
+	<field name="act_ofc_cod" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="act_ofc_cod"/>
+	</field>
+	<field name="ofc_des" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ofc_des"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="7" width="50" height="20" uuid="ba49c059-f49c-4b95-8206-e045b72f9f26"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="7" width="40" height="20" uuid="fe781c72-65c3-458b-bb44-5cca715e18e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_can}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="7" width="50" height="20" uuid="ac5c28bc-69a6-420a-9891-d372d1d539d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_des}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="170" y="7" width="268" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="571a2043-5587-4384-b0f1-e61b9c6851ed"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_des_det}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="7" width="50" height="20" uuid="5ccba9d8-d4bf-414c-bfa5-1029c8346608"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_par_cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="7" width="60" height="20" uuid="30d4ad70-51f8-48b4-8cc6-89eb9716a929"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_estado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
