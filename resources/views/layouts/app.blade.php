@@ -16,6 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <!-- <script src="javascript/tabla.js"></script>
     <script  src="../../Jquery/prettify.js"></script> -->
+    @stack('styles')
 </head>
 <body>
     <div id="app">
@@ -43,5 +44,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

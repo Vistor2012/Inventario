@@ -37,13 +37,11 @@ class InvenDetalleController extends Controller
   public function store(Request $request)
   { 
       $det=new InvenDetalle($request->all());
-      $inventario=Inventario::orderby('inv_ofi_cod','desc')->get()->last();
       $det->save();
-      //dd($inv);
-      flash('Registro Completo', 'success');
-      return redirect()->route('invdetalles.index',$det->act_ofc_cod);
+      $inventario=Inventario::orderby('inv_ofi_cod','desc')->get()->last();
+      return response()->json($inventario);
   }
-  public function show($ofi_cod){
+  public function show($id_inv_det){
       $det=InvenDetalle::find($id_inv_det);
       return view('invdetalles.show')->with('det', $det);
   }

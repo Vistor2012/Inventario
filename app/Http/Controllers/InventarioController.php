@@ -22,8 +22,6 @@ class InventarioController extends Controller
   public function create(){
   	$inventario=Inventario::orderby('id_inv','desc')->get();
   	$oficina=Oficina::orderby('ofc_cod','desc')->get();
-  	//dd($oficina);
-  	//dd($inventario);
     $detalle=InvenDetalle::orderby('id_inv_det','desc')->get();
     $activo=Activo::orderby('act_ofc_cod','desc')->get();
     $rev=ActivoRev::orderby('act_ofc_cod','desc')->get();
@@ -39,15 +37,20 @@ class InventarioController extends Controller
   public function store(Request $request)
   { 
       $inv=new Inventario($request->all());
-      $oficina=Oficina::orderby('ofc_cod','desc')->get()->last();
       $inv->save();
-      //dd($inv);
-      $det=new InvenDetalle($request->all());
-      $activo=Activo::orderby('act_ofc_cod', 'desc')->get()->last();
-      $rev=ActivoRev::orderby('act_ofc_cod', 'desc')->get()->last();
-      $det->save();
-      flash('Registro Completo', 'success');
-      return redirect()->route('inventarios.index',$inv->inv_ofi_cod);
+      $activo = Activo::where('act_ofc_cod', $request->input('inv_ofi_cod'))
+          ->select('codigo','act_des','act_des_det','act_can')
+          ->orderby('act_ofc_cod', 'desc')
+          ->get();
+
+      $rev = ActivoRev::where('act_ofc_cod', $request->input('inv_ofi_cod'))
+          ->select('codigo','act_des','act_des_det','act_can')
+          ->orderby('act_ofc_cod', 'desc')
+          ->get();
+
+      $activos = $rev->concat($activo);
+
+      return response()->json($activos);
   }
   public function show($ofi_cod){
       $inv=Inventario::find($id_inv);

@@ -35,6 +35,7 @@ class InvenDetalle extends Model
   {
     return $this->belongsTo('App\Invetario');
   }
+  public function inventario()
   {
     return $this->belongsTo('App\Invetario');
   }
