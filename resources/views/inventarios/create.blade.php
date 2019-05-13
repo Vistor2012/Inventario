@@ -29,7 +29,9 @@
             top: 50%;
             z-index: 1;
         }
-        .wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
+        .wizard .nav-tabs > li.active > a, 
+        .wizard .nav-tabs > li.active > a:hover, 
+        .wizard .nav-tabs > li.active > a:focus {
             color: #555555;
             cursor: default;
             border: 0;
@@ -272,18 +274,15 @@
     <script>
         let flag = true;
         //FIRST FORM
-        $('select#inv_ofi_cod').change(function(){
-            $('select#oficina').val($(this).val());
-            oficina = $('select#oficina option:selected').text();
-            $('input#inv_ofi_des').val(oficina);
-        });
         $('select#oficina').change(function(){
             $('select#inv_ofi_cod').val($(this).val());
             oficina = $('select#oficina option:selected').text();
             $('input#inv_ofi_des').val(oficina);
         });
+
         //Initialize tooltips
         $('.nav-tabs > li a[title]').tooltip();
+
         //Wizard
         function nextTab(elem) {
             $(elem).next().find('a[data-toggle="tab"]').click();
@@ -291,6 +290,7 @@
         function prevTab(elem) {
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
+
         //DATATABLES
         $(document).ready(function(){
             $('#table-detalle').DataTable({});
@@ -361,3 +361,4 @@
     </script>
 @endpush
 @endsection
+

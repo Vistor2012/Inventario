@@ -53,4 +53,3 @@ Route::get('generarQRC/{criterioOficinarev}/{criterioActivorev}', 'OficinaContro
 
 Route::post('/import', 'OficinaController@import')->name('import');
 
-Route::get('/listarActivos', 'InventarioController@listarActivos')->name('listarActivos');
