@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PHPJasper\PHPJasper;
@@ -10,7 +8,6 @@ use App\InvenDetalle;
 use App\Oficina;
 use App\Activo;
 use App\ActivoRev;
-
 class InventarioController extends Controller
 {
   public function index(Request $request)
@@ -20,10 +17,8 @@ class InventarioController extends Controller
     return view('inventarios.index')->with('inventario', $inventario);
   }
   public function create(){
-  	$inventario=Inventario::orderby('id_inv','desc')->get();
-  	$oficina=Oficina::orderby('ofc_cod','desc')->get();
-  	//dd($oficina);
-  	//dd($inventario);
+    $inventario=Inventario::orderby('id_inv','desc')->get();
+    $oficina=Oficina::orderby('ofc_cod','desc')->get();
     $detalle=InvenDetalle::orderby('id_inv_det','desc')->get();
     $activo=Activo::orderby('act_ofc_cod','desc')->get();
     $rev=ActivoRev::orderby('act_ofc_cod','desc')->get();
@@ -39,34 +34,35 @@ class InventarioController extends Controller
   public function store(Request $request)
   { 
       $inv=new Inventario($request->all());
-      $oficina=Oficina::orderby('ofc_cod','desc')->get()->last();
       $inv->save();
-      //dd($inv);
-      $det=new InvenDetalle($request->all());
-      $activo=Activo::orderby('act_ofc_cod', 'desc')->get()->last();
-      $rev=ActivoRev::orderby('act_ofc_cod', 'desc')->get()->last();
-      $det->save();
-      flash('Registro Completo', 'success');
-      return redirect()->route('inventarios.index',$inv->inv_ofi_cod);
+      $activo = Activo::where('act_ofc_cod', $request->input('inv_ofi_cod'))
+          ->select('codigo','act_des','act_des_det','act_can')
+          ->orderby('act_ofc_cod', 'desc')
+          ->get();
+      $rev = ActivoRev::where('act_ofc_cod', $request->input('inv_ofi_cod'))
+          ->select('codigo','act_des','act_des_det','act_can')
+          ->orderby('act_ofc_cod', 'desc')
+          ->get();
+      $activos = $rev->concat($activo);
+      return response()->json($activos);
   }
   public function show($ofi_cod){
       $inv=Inventario::find($id_inv);
       return view('inventarios.show')->with('inv', $inv);
   }
   public function edit($id_inv){
-    	$inventario=Inventario::find($id_inv);
+      $inventario=Inventario::find($id_inv);
         return view('inventarios.edit')->with('inventario', $inventario);
     }
     public function update(Request $request, $id_inv){
         $inventario = Inventario::find($id_inv);
         $inventario->fill($request->all());
         $inventario->save();
-
         flash('Edicion completa', 'warning');
         return redirect()->route('inventarios.index');
     }
     public function destroy($id_inv){
-    	$inventario = Inventario::find($id_inv);
+      $inventario = Inventario::find($id_inv);
         $inventario->delete();
         flash('a sido borrado de forma exitosa', 'danger');
         return redirect()->route('inventarios.index');

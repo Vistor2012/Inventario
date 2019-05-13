@@ -1,29 +1,134 @@
 @extends('layouts.app')
 @section('content')
 
-<link rel="stylesheet"  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  id="bootstrap-css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+@push('styles')
+    <link rel="stylesheet"  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  id="bootstrap-css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <style>
+        .wizard {
+            margin: 20px auto;
+            background: #fff;
+        }
+        .wizard .nav-tabs {
+            position: relative;
+            margin: 40px auto;
+            margin-bottom: 0;
+            border-bottom-color: #e0e0e0;
+        }
+        .wizard > div.wizard-inner {
+            position: relative;
+        }
+        .connecting-line {
+            height: 2px;
+            background: #e0e0e0;
+            position: absolute;
+            width: 80%;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 50%;
+            z-index: 1;
+        }
+        .wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
+            color: #555555;
+            cursor: default;
+            border: 0;
+            border-bottom-color: transparent;
+        }
+        span.round-tab {
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            display: inline-block;
+            border-radius: 100px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            z-index: 2;
+            position: absolute;
+            left: 0;
+            text-align: center;
+            font-size: 25px;
+        }
+        span.round-tab i{
+            color:#555555;
+        }
+        .wizard li.active span.round-tab {
+            background: #fff;
+            border: 2px solid #5bc0de;
+        }
+        .wizard li.active span.round-tab i{
+            color: #5bc0de;
+        }
+        span.round-tab:hover {
+            color: #333;
+            border: 2px solid #333;
+        }
+        .wizard .nav-tabs > li {
+            width: 33.3%;
+        }
+        .wizard li:after {
+            content: " ";
+            position: absolute;
+            left: 46%;
+            opacity: 0;
+            margin: 0 auto;
+            bottom: 0px;
+            border: 5px solid transparent;
+            border-bottom-color: #5bc0de;
+            transition: 0.1s ease-in-out;
+        }
+        .wizard li.active:after {
+            content: " ";
+            position: absolute;
+            left: 46%;
+            opacity: 1;
+            margin: 0 auto;
+            bottom: 0px;
+            border: 10px solid transparent;
+            border-bottom-color: #5bc0de;
+        }
+        .wizard .nav-tabs > li a {
+            width: 70px;
+            height: 70px;
+            margin: 20px auto;
+            border-radius: 100%;
+            padding: 0;
+        }
+        .wizard .nav-tabs > li a:hover {
+            background: transparent;
+        }
+        .wizard .tab-pane {
+            position: relative;
+            padding-top: 50px;
+        }
+        .wizard h3 {
+            margin-top: 0;
+        }
+        @media( max-width : 585px ) {
+            .wizard {
+                width: 90%;
+                height: auto !important;
+            }
+            span.round-tab {
+                font-size: 16px;
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+            }
+            .wizard .nav-tabs > li a {
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+            }
+            .wizard li.active:after {
+                content: " ";
+                position: absolute;
+                left: 35%;
+            }
+        }
+    </style>
+@endpush
 <!------ Include the above in your HEAD tag ---------->
-<script>
-    $(document).ready(function(){
-
-      $('select#inv_ofi_cod').change(function(){
-        $('select#oficina').val($(this).val());
-        oficina = $('select#oficina option:selected').text();
-        $('input#inv_ofi_des').val(oficina);
-      });
-
-      $('select#oficina').change(function(){
-        $('select#inv_ofi_cod').val($(this).val());
-        oficina = $('select#oficina option:selected').text();
-        $('input#inv_ofi_des').val(oficina);
-      });
-    });
-</script>
 
 <div class="container">
   <div class="row">
@@ -34,7 +139,7 @@
                 <ul class="nav nav-tabs" role="tablist">
 
                     <li role="presentation" class="active">
-                        <a href="#step1" data-toggle="tab" aria-controls="inventario" role="tab" title="inventario">
+                        <a href="#inventario" data-toggle="tab" aria-controls="inventario" role="tab" title="inventario">
                             <span class="round-tab">
                                 <i class="glyphicon glyphicon-folder-open"></i>
                             </span>
@@ -58,11 +163,10 @@
                     </li>
                 </ul>
             </div>
-            <form role="form">
                 <div class="tab-content">
                     <div class="tab-pane active" role="tabpanel" id="inventario">
                       <div class="panel-body">
-                      {!! Form::open([ 'route' => 'inventarios.store', 'method' => 'POST', 'files' => true,'id' => 'inv_form']) !!}
+                      <form method='POST' id='inv_form'>
                           <div class="row col-md-12">
                               <div class="form-group col-md-4">
                                 <label>Codigo de la Unidad</label>
@@ -83,43 +187,43 @@
                               <input type="hidden" name="inv_ofi_des" id="inv_ofi_des" value="{{$oficina[0]->ofc_des}}">
                               <input id="prodId" name="prodId" type="hidden" value="xm234jq">
                           </div>
+                          {{ csrf_field() }}
                           <div class="form-group col-md-12">
-                              {!! form::label('Descripcion del Inventario') !!}
-                              {!! form::text('inv_des', null, ['class' => 'form-control', 'placeholder' => 'Descripcion', 'required']) !!}
+                             <label>Descripcion del Inventario</label>
+                              <input name='inv_des' class='form-control' placeholder="Descripcion" required>
                           </div>
                           <div class="form-group col-md-6">
-                              {!! form::label('Responsable Actual de la Unidad') !!}
-                              {!! form::text('inv_resp_actual', null, ['class' => 'form-control', 'placeholder' => 'Responsable Actual de la Unidad', 'required']) !!}
+                              <label for="">Responsable Actual de la Unidad</label>
+                              <input type="text" name="inv_resp_actual" class="form-control" placeholder="Responsable Actual de la Unidad" required>
                           </div>
                           <div class="form-group col-md-6">
-                              {!! form::label('Nuevo Responsable de la Unidad') !!}
-                              {!! form::text('inv_resp_nuevo', null, ['class' => 'form-control', 'placeholder' => 'Nuevo Responsable de la Unidad']) !!}
+                              <label for="">Nuevo Responsable de la Unidad</label>
+                              <input type="text" name="inv_resp_nuevo" class="form-control" placeholder="Nuevo Responsable de la Unidad" required>
                           </div>
                           <div class="form-group col-md-12">
-                              {!! form::label('Observacion') !!}
-                              {!! form::text('obs_inv', null, ['class' => 'form-control', 'placeholder' => 'Observacion']) !!}
+                              <label for="">Observaciones</label>
+                              <input type="text" name="inv_obs" class="form-control" placeholder="Observaciones">
                           </div>
                           <div class="form-group col-md-6">
-                              {!! form::label('Responsable de Inventario') !!}
-                              {!! form::text('resp_inv', null, ['class' => 'form-control', 'placeholder' => 'Responsable a Realizar el Inventario']) !!}
+                              <label for="">Responsable de Inventario</label>
+                              <input type="text" name="resp_inv" class="form-control" placeholder="Responsable a Realizar el Inventario" required>
                           </div>
                           <div class="form-group col-md-6">
-                              {!! form::label('Fecha') !!}
-                              {!! form::date('fec_inv', null, ['class' => 'form-control', 'placeholder' => 'Fecha']) !!}
+                              <label for="">Fecha</label>
+                              <input type="date" name="fec_inv" class="form-control" required>
                           </div>
                           <ul class="list-inline pull-right">
                             <div class="form-group col-md-12">
-
-                              {!! form::submit('Guardar y Continuar', ['class' => 'btn btn-primary next-stepp']) !!}
+                              <button type="submit" class="btn btn-primary next-step">Guardar y Continuar</button>
                             </div>
                           </ul>
-                        {!!Form::close()!!}
+                      </form>
                         </div>
                     </div>
                     <div class="tab-pane" role="tabpanel" id="detalle">
                         <h3 align="center">Detalle de Activos Fijos</h3>
                         <div>
-                            <table id="detalles">
+                            <table id="table-detalle" class="table table-striped table-bordered">
                               <thead>
                                 <tr>
                                   <th>Codigo</th>
@@ -130,9 +234,14 @@
                                   <th>Verificacion</th>
                                 </tr>
                               </thead>
-                              <tbody>
+                              <tbody id="table_content">
                                 <tr>
-                                  
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                               </tbody>
                             </table>
@@ -153,68 +262,102 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-            </form>
         </div>
     </section>
    </div>
 </div>
-<script type="text/javascript">
-    $(function(){
-        $('#detalle').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{url(Inventario.create)}}' + '/' +inv_ofi_cod
-            columns: [
-                { data: 'act_codigo', name: 'act_codigo' },
-                { data: 'act_des', name: 'act_des' },
-                { data: 'act_des_det', name: 'act_des_det' },
-                { data: 'act_can', name: 'act_can' },
-                { data: 'act_estado', name: 'act_estado' },
-                { data: 'act_ofc_cod', name: 'act_ofc_cod' },
-                { data: 'act_val_neto', name: 'act_val_neto' },
-                { data: 'exi_act', name: 'exi_act' }                                                    
-            ]
+
+@push('scripts')
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        let flag = true;
+        //FIRST FORM
+        $('select#inv_ofi_cod').change(function(){
+            $('select#oficina').val($(this).val());
+            oficina = $('select#oficina option:selected').text();
+            $('input#inv_ofi_des').val(oficina);
         });
-    });
-</script>
-<script type="text/javascript">
-  let flag = true;
-  $(document).ready(function () {
-      //Initialize tooltips
-      $('.nav-tabs > li a[title]').tooltip();
-      
-      //Wizard
-      $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-          var $target = $(e.target);
-          if ($target.parent().hasClass('disabled')) {
-              return false;
-          }
-      });
-      $(".next-step").click(function (e) {
-          var $active = $('.wizard .nav-tabs li.active');
-          $active.next().removeClass('disabled');
-          nextTab($active);
-          if(flag){
-            $.ajax({
-              url:
+        $('select#oficina').change(function(){
+            $('select#inv_ofi_cod').val($(this).val());
+            oficina = $('select#oficina option:selected').text();
+            $('input#inv_ofi_des').val(oficina);
+        });
+        //Initialize tooltips
+        $('.nav-tabs > li a[title]').tooltip();
+        //Wizard
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
+        //DATATABLES
+        $(document).ready(function(){
+            $('#table-detalle').DataTable({});
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                var $target = $(e.target);
+                if ($target.parent().hasClass('disabled')) {
+                    return false;
+                }
             });
-            flag=false;
-          }
-      });
-      
-      $(".prev-step").click(function (e) {
-          var $active = $('.wizard .nav-tabs li.active');
-          prevTab($active);
-      });
-
-      
-  });
-  function nextTab(elem) {
-      $(elem).next().find('a[data-toggle="tab"]').click();
-  }
-  function prevTab(elem) {
-      $(elem).prev().find('a[data-toggle="tab"]').click();
-  }
-</script>
-
+            $(".next-step").click(function (e) {
+                var $active = $('.wizard .nav-tabs li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+            });
+            $(".prev-step").click(function (e) {
+                var $active = $('.wizard .nav-tabs li.active');
+                prevTab($active);
+            });
+        })
+        $('form#inv_form').submit(function(e){
+           e.preventDefault();
+           let datos = $(this).serializeArray();
+           let html = '';
+           $.ajax({
+               url:'{{route('inventarios.store')}}',
+               method:'post',
+               dataType:'JSON',
+               data: datos,
+               success: function (data) {
+                    for(let i = 0; i < data.length; i++ ){
+                        html +=
+                        `<tr>
+                            <td>${data[i].codigo}</td>
+                            <td>${data[i].act_des}</td>
+                            <td>${data[i].act_can}</td>
+                            <td>
+                                <select class="form-control">
+                                    <option value="1">Bueno</option>
+                                    <option value="2">Regular</option>
+                                    <option value="3">Malo</option>
+                                </select>
+                            </td>
+                            <td>100</td>
+                            <td><button class="btn btn-success btn-xs" id="${data[i].codigo}" onclick="guardar_act(this)"><span class="glyphicon glyphicon-save"></span> Guardar</button</td>
+                        <tr>`
+                    }
+                    $('#table_content').html(html);
+               }
+           })
+        });
+        function guardar_act(button){
+            id = button.id;
+            $.ajax({
+                url: '{{url('invenDetalle.store')}}',
+                data: {id_activo: id},
+                method: 'POST',
+                success:function(){
+                    $(button).removeClass('btn-success');
+                    $(button).html('<span class="glyphicon glyphicon-check"></span> Guardado')
+                },
+                fail:function () {
+                    $(button).removeClass('btn-success');
+                    $(button).addClass('btn-danger')
+                    $(button).html('<span class="glyphicon glyphicon-remove"></span> Error')
+                }
+            })
+        }
+    </script>
+@endpush
 @endsection

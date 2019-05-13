@@ -1,9 +1,6 @@
 <?php
-
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
-
 class InvenDetalle extends Model
 {
     protected $table = "act.inven_detalle";
@@ -22,7 +19,6 @@ class InvenDetalle extends Model
         'fec_cre'
     ];
   protected $primaryKey = 'id_inv_det';
-
   public function Oficina()
   {
     return $this->belongsTo('App\Oficina');
@@ -35,6 +31,7 @@ class InvenDetalle extends Model
   {
     return $this->belongsTo('App\Invetario');
   }
+  public function Inventario()
   {
     return $this->belongsTo('App\Invetario');
   }
