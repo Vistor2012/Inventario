@@ -12,7 +12,7 @@ class InventarioController extends Controller
 {
   public function index(Request $request)
   {
-    $inventario = Inventario::orderby('inv_ofi_cod','DESC')->paginate(15);
+    $inventario = Inventario::orderby('inv_ofi_cod','DESC')->paginate(10);
     //dd($inventario);
     return view('inventarios.index')->with('inventario', $inventario);
   }
@@ -36,11 +36,11 @@ class InventarioController extends Controller
       $inv=new Inventario($request->all());
       $inv->save();
       $activo = Activo::where('act_ofc_cod', $request->input('inv_ofi_cod'))
-          ->select('codigo','act_des','act_des_det','act_can')
+          ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
           ->orderby('act_ofc_cod', 'desc')
           ->get();
       $rev = ActivoRev::where('act_ofc_cod', $request->input('inv_ofi_cod'))
-          ->select('codigo','act_des','act_des_det','act_can')
+          ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
           ->orderby('act_ofc_cod', 'desc')
           ->get();
       $activos = $rev->concat($activo);

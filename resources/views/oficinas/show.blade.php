@@ -2,7 +2,7 @@
 @section('content')
 <title>Activos</title>
 	<div class="col-md-12 col-lg-12">
-	 	<th><center><h1 class="box-title">Activos de {{$ofi->ofc_des}}</h1></center></th>
+	 	<th><center><h1 class="box-title">ACTIVOS DE {{$ofi->ofc_des}}</h1></center></th>
 		<tr>
       <div class="card body">
         <a href="{{ url('pdf') }}/{{ $ofi->ofc_cod }}">

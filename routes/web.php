@@ -16,6 +16,11 @@ Route::get('/', function () {
 });
 
 //Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('users', 'UserController');
+Route::get('users/{id}/destroy',[
+    'uses' => 'UserController@destroy',
+    'as' => 'users.destroy'
+]);
 
 Route::resource('oficinas','OficinaController');
 Route::get('oficinas/{id}/destroy',[

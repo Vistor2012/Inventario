@@ -204,23 +204,30 @@
                           </div>
                           <div class="form-group col-md-12">
                               <label for="">Observaciones</label>
-                              <input type="text" name="inv_obs" class="form-control" placeholder="Observaciones">
+                              <textarea type="text" name="inv_obs" class="form-control rounded-0" placeholder="Observaciones"></textarea>
                           </div>
                           <div class="form-group col-md-6">
                               <label for="">Responsable de Inventario</label>
                               <input type="text" name="resp_inv" class="form-control" placeholder="Responsable a Realizar el Inventario" required>
                           </div>
                           <div class="form-group col-md-6">
-                              <label for="">Fecha</label>
-                              <input type="date" name="fec_inv" class="form-control" required>
+                              <label for="">Responsable de la Unidad de Bienes e Inventarios</label>
+                              <input type="text" name="resp_unidad" class="form-control" placeholder="Responsable de la Unidad de Bienes e Inventarios" required>
+                          </div class="row col-md-12">
+                          <div>
+                              <div class="form-group col-md-6">
+                                  <label for="">Fecha</label>
+                                  <input type="date" name="fec_inv" class="form-control" required>
+                              </div>
+                              <ul class="list-inline pull-right">
+                                <div class="form-group col-md-6">
+                                  <button type="submit" class="btn btn-primary next-step">Guardar y Continuar</button>
+                                </div>
+                              </ul>
                           </div>
-                          <ul class="list-inline pull-right">
-                            <div class="form-group col-md-12">
-                              <button type="submit" class="btn btn-primary next-step">Guardar y Continuar</button>
-                            </div>
-                          </ul>
+                          
                       </form>
-                        </div>
+                      </div>
                     </div>
                     <div class="tab-pane" role="tabpanel" id="detalle">
                         <h3 align="center">Detalle de Activos Fijos</h3>
@@ -228,16 +235,20 @@
                             <table id="table-detalle" class="table table-striped table-bordered">
                               <thead>
                                 <tr>
+                                  <th>Verificar</th>
                                   <th>Codigo</th>
                                   <th>Descripcion</th>
                                   <th>Cantidad</th>
                                   <th>Estado</th>
                                   <th>Valor Neto</th>
-                                  <th>Verificacion</th>
+                                  <th>Observacion</th>
+                                  <th>Opciones</th>
                                 </tr>
                               </thead>
                               <tbody id="table_content">
                                 <tr>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -274,6 +285,12 @@
     <script>
         let flag = true;
         //FIRST FORM
+        $('select#inv_ofi_cod').change(function(){
+            $('select#oficina').val($(this).val());
+            oficina = $('select#oficina option:selected').text();
+            $('input#inv_ofi_des').val(oficina);
+        });
+
         $('select#oficina').change(function(){
             $('select#inv_ofi_cod').val($(this).val());
             oficina = $('select#oficina option:selected').text();
@@ -294,7 +311,7 @@
         //DATATABLES
         $(document).ready(function(){
             $('#table-detalle').DataTable({});
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            $('a[data-toggle="tab"]').on('show.bs.tab', function(e){
                 var $target = $(e.target);
                 if ($target.parent().hasClass('disabled')) {
                     return false;
@@ -323,6 +340,12 @@
                     for(let i = 0; i < data.length; i++ ){
                         html +=
                         `<tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" name="exi_act" class="custom-control-input" id="checkbox" checkbox>
+                                  <label class="custom-control-label" for=""></label>
+                                </div>
+                            </td>
                             <td>${data[i].codigo}</td>
                             <td>${data[i].act_des}</td>
                             <td>${data[i].act_can}</td>
@@ -333,8 +356,15 @@
                                     <option value="3">Malo</option>
                                 </select>
                             </td>
-                            <td>100</td>
+                            <td>${data[i].act_imp_bs}</td>
+                            <td>
+                                <div class="form-group col-md-12">
+                                    <textarea type="text" name="Observacion" class="form-control rounded-0" placeholder="Observacion"></textarea>
+                                </div>
+                            </td>
+                            
                             <td><button class="btn btn-success btn-xs" id="${data[i].codigo}" onclick="guardar_act(this)"><span class="glyphicon glyphicon-save"></span> Guardar</button</td>
+
                         <tr>`
                     }
                     $('#table_content').html(html);

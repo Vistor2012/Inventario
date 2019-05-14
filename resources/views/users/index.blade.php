@@ -34,11 +34,7 @@
         <tr>
           <th>Nombre</th>
           <th>Correo</th>
-          <th>Tipo</th>
-          
-         
           <th>Opciones</th>
-          
 
         </tr>
       </thead>
@@ -47,18 +43,6 @@
         <tr>
           <td>{{ $use->name}}</td>
           <td>{{ $use->email}}</td>
-          <td>
-            @if($use->type == "admin")
-              <span class="label label-primary">Administrador</span>
-            @else
-              @if($use->type == "member")
-                <span class="label label-danger">Miembro</span>
-              @else
-                <span class="label label-danger">Soporte</span>
-              @endif
-            @endif
-          </td>
-
           <td>
             <a href="{{ route('users.edit',$use->id) }}">
               <button type="button" class="btn btn-warning">Modificar</button>
@@ -74,10 +58,5 @@
       </tfoot>
     </table>
   </div>
-  <!-- /.box-body -->
-  <div class="box-footer">
-  </div>
-  <!-- /.box-footer-->
 </div>
-<!-- /.box -->
 @endsection

@@ -38,7 +38,7 @@ class ActivosRevImport implements ToModel
             'act_ofc_cod'   => $row[9],
             'estado'        => $row[10],
             'fec_cre'       => date('Y-m-d', $unix_date2),
-            'codigo_nuevo'  => $row[12],
+            'act_imp_bs'    => $row[12],
 
         ]);
     }

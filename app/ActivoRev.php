@@ -23,7 +23,7 @@ class ActivoRev extends Model
         'act_ofc_cod',
         'estado',
         'fec_cre',
-        'codigo_nuevo'
+        'act_imp_bs'
     ];
   protected $primaryKey = 'act_ofc_cod';
 
