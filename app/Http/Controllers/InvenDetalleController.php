@@ -26,7 +26,7 @@ class InvenDetalleController extends Controller
   public function search(Request $request){
     $search = $request->get('search');
     //($search);
-    $detalle = InvenDetalle::where('id_inv', 'like', '%'.$search.'%')->paginate(5);
+    $detalle = InvenDetalle::where('id_inv_det', 'like', '%'.$search.'%')->paginate(5);
     //dd($inventario);
     return view('invdetalles.index',['detalle' => $detalle]);
   }
