@@ -31,11 +31,37 @@ class InvenDetalleController extends Controller
     return view('invdetalles.index',['detalle' => $detalle]);
   }
   public function store(Request $request)
-  { 
-      $det=new InvenDetalle($request->all());
-      $det->save();
-      $inventario=Inventario::orderby('inv_ofi_cod','desc')->get()->last();
-      return response()->json($inventario);
+  {   
+      //Primero recuperamos el codigo del activo a guardar, ya que es unico nos ayudara a buscar en las tablas
+      $codigo = $request->codigo;
+
+      //Buscamos primero en activos
+
+      $activo = Activo::where('codigo',$codigo)->first();
+
+      //Si el resultado es vacio, recien buscamos en activos revalorizados
+
+      if (!$activo){
+        $activo = ActivoRev::where('codigo',$codigo)->first();        
+      }
+
+      //Completamos el array para guardarlo
+
+      $dataDetalle = array(
+        'act_codigo' => $codigo,
+        'act_des' => $activo->act_des,
+        'act_des_det' => $activo->act_des_det,
+        'act_can' => $activo->act_can,
+        'act_estado' => $request->act_estado,
+        'act_ofc_cod' => $activo->act_ofc_cod,
+        'act_val_neto' => $activo->act_imp_bs,
+        'exi_act' => ($request->exi_act) ? '0' : '1',
+        'observacion' => $request->observacion
+      );
+      $AddDetalle = new InvenDetalle($dataDetalle);  
+      $AddDetalle->save();
+      
+      return response()->json($activo);
   }
   public function show($id_inv_det){
       $det=InvenDetalle::find($id_inv_det);

@@ -41,7 +41,6 @@ ul {
 /*Login Signup Page*/
 
 .bg-image {
-    background: url(/imagenes/UATF-1.jpg) no-repeat 0 0 / cover;
     position: relative;
     width: 80%;
     height: 80vh;

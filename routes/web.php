@@ -27,6 +27,7 @@ Route::get('activosrev/{id}/destroy',[
     'as' => 'activosrev.destroy'
 ]);
 Route::resource('inventarios','InventarioController');
+Route::get('getInvInfo/{id_ofi}','InventarioController@getInvInfo')->name('getInvInfo');
 Route::get('inventarios/{id_inv}/destroy',[
     'uses' => 'InventarioController@destroy',
     'as' => 'inventarios.destroy'
@@ -39,6 +40,7 @@ Route::get('invdetalles/{id_inv_det}/destroy',[
 ]);
 
 Route::get('/pdf/{ofc_cod}', 'OficinaController@pdf');
+Route::get('/pdfInv/{inv_ofi_cod}', 'InventarioController@pdfInv');
 Route::get('generarQR/{criterioOficina}/{criterioActivo}', 'OficinaController@generarQR');
 Route::get('generarQRC/{criterioOficinarev}/{criterioActivorev}', 'OficinaController@generarQRC');
 

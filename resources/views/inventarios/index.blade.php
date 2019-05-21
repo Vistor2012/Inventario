@@ -9,6 +9,11 @@
           <button type="button" class="btn btn-primary btn-lg">Registrar Nuevo Inventario</button>
         </a>
       </div>
+      <div class="col-md-6">
+        <a href="{{ url('pdfInv') }}/{{ $inventario->inv_ofi_cod }}">
+          <button type="button" class="btn btn-primary">Imprimir</button>
+        </a>
+      </div>
     </div>
   </div>
   <div class="box-body col-md-12">
@@ -21,7 +26,6 @@
           <th>Descripcion</th>
           <th>Observacion</th>
           <th>Responsable</th>
-
           <th>Opciones</th>
         </tr>
       </thead>

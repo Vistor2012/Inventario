@@ -19,6 +19,7 @@
               <th>Pieza</th>
               <th>Descripcion Detallada</th>
               <th>Fecha de Adquisicion</th>
+              <th>Valor Neto</th>
               <th>Estado del Bien</th>
               <th>Codigo QR</th>
           </thead>
@@ -33,6 +34,7 @@
               <td>{{ $act->act_des }}</td>
               <td>{{ $act->act_des_det }}</td>
               <td>{{ $act->act_fec_adq }}</td>
+              <td>{{ $act->act_imp_bs }}</td>
               <td>{{ $act->act_estado }}</td>
               <td>
                   <a class="btn btn-success btn-xs" data-toggle="modal" href='#modal-VerQR' onclick="generarQR({{$ofi->ofc_cod}},{{$act->id_act}})">Ver QR</a>
@@ -49,6 +51,7 @@
               <td>{{ $acti->act_des }}</td>
               <td>{{ $acti->act_des_det }}</td>
               <td>{{ $acti->act_fec_adq }}</td>
+              <td>{{ $act->act_imp_bs }}</td>
               <td>{{ $acti->act_estado }}</td>
               <td>
                   <a class="btn btn-success btn-xs" data-toggle="modal" href='#modal-VerQR' onclick="generarQRC( {{$ofi->ofc_cod}}, {{$acti->id_act}})">Ver QR</a>

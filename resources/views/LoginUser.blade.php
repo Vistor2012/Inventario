@@ -68,7 +68,11 @@
                                                 <input type="password" name="clave" placeholder="Contraseña" id="clave">
                                             </label>
                                             <label class="gestion">
-                                                <input type="text" name="gestion" placeholder="Gestion" id="gestion">
+                                                <select class="form-control">
+                                                    <option value="1">2019</option>
+                                                    <option value="2">2018</option>
+                                                    <option value="3">2017</option>
+                                                </select>
                                             </label>
                                         </div>
                                         <button type="submit" class="form-btn">Aceptar</button>
