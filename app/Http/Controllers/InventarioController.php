@@ -52,19 +52,19 @@ class InventarioController extends Controller
           ->get();
       $activos = $rev->concat($activo);
       //Aqui haces el cruzado
-      /*$revisados = InvenDetalle::where('act_ofc_cod', $request->input('inv_ofi_cod'))
+      $revisados = InvenDetalle::where('act_ofc_cod', $request->input('inv_ofi_cod'))
           ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
           ->orderby('act_ofc_cod', 'desc')
-          ->get();*/
-      //Revisa las funciones de las collections que evitan el duplicado
-      /*if ($this->useAsCallable($callback)) {  
-          return $this->filter(function ($revisados) use ($callback) {
-              return ! $callback($revisados);
-          });
+          ->get();
+      $num_act = sizeof($activos);
+      $num_rev = sizeof($revisados);
+      for($i = 0; $i < $num_act; $i++){
+        for($j = 0; $j < $num_rev; $j++){
+          if($activos[$i]->codigo == $revisados[$j]->codigo){
+            unset($activos[$i]);
+          }
+        }
       }
-      return $this->filter(function ($revisados) use ($callback) {
-          return $revisados != $callback;
-      });*/
 
       return response()->json($activos);
   }
