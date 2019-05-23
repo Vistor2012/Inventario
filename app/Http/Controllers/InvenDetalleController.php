@@ -55,7 +55,7 @@ class InvenDetalleController extends Controller
         'act_estado' => $request->act_estado,
         'act_ofc_cod' => $activo->act_ofc_cod,
         'act_val_neto' => $activo->act_imp_bs,
-        'exi_act' => ($request->exi_act) ? '0' : '1',
+        'exi_act' => ($request->exi_act == "true") ? '1' : '0',
         'observacion' => $request->observacion
       );
       $AddDetalle = new InvenDetalle($dataDetalle);  

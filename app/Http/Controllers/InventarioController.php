@@ -50,23 +50,30 @@ class InventarioController extends Controller
           ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
           ->orderby('act_ofc_cod', 'desc')
           ->get();
-      $activos = $rev->concat($activo);
-      //Aqui haces el cruzado
+
+      $activos = $rev->concat($activo)->toArray();
+      //cruzado de datos
       $revisados = InvenDetalle::where('act_ofc_cod', $request->input('inv_ofi_cod'))
-          ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
+          ->select('act_codigo','act_des','act_des_det','act_can', 'act_val_neto')
           ->orderby('act_ofc_cod', 'desc')
-          ->get();
+          ->get()->toArray();
       $num_act = sizeof($activos);
       $num_rev = sizeof($revisados);
+      $flag = true;
+      $activos_fin = array();
       for($i = 0; $i < $num_act; $i++){
+        $flag = true;
         for($j = 0; $j < $num_rev; $j++){
-          if($activos[$i]->codigo == $revisados[$j]->codigo){
-            unset($activos[$i]);
+          if($activos[$i]['codigo'] == $revisados[$j]['act_codigo']){
+            $flag = false;
           }
+        }
+        if ($flag) {
+          array_push($activos_fin,$activos[$i]);
         }
       }
 
-      return response()->json($activos);
+      return response()->json($activos_fin);
   }
   public function show($ofi_cod){
       $inv=Inventario::find($id_inv);
@@ -95,7 +102,7 @@ class InventarioController extends Controller
       return response()->json($inv);
     }
     public function pdfInv($inv_ofi_cod){
-      $input = public_path() . '/reports/prueb.jasper';
+      $input = public_path() . '/reports/inventario.jasper';
       $output = public_path() . '/reports/' . time() . '_Valores';
 
       $options = [

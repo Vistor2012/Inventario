@@ -10,52 +10,24 @@ use Auth;
 
 class LoginUsuarioController extends Controller
 {
-    public function RegistroCliente(Request $request)
+    public function username()
     {
-        $validacion = Validator ::make($request->all(),
-            [
-                'nro_dip' => 'required|max:50',
-                'paterno' => 'required|max:50',
-                'materno' => 'required|max:50',
-                'nombres' => 'required|max:50',
-                'usuario' => 'usuario|unique:Usuario',
-                'clave' => 'required|min:6'
-            ]);
-        if ($validacion->fails())
-        {
-            return redirect('/#register')
-                ->withInput()
-                ->withErrors($validacion);
-        }
-
-        $user = new Usuario();
-        $user->nro_dip = $request->nro_dip;
-        $user->paterno = $request->paterno;
-        $user->materno = $request->materno;
-        $user->nombres = $request->nombres;
-        $user->usuario = $request->usuario;
-        $user->clave = bcrypt($request->clave);
-        $user->save();
-
-        return 'Completado';
-
+        return 'usuario';
     }
-
-
-    public  function  LoginUsuario()
+    public  function  LoginUsuario(Request $request)
     {
-        $credenciales = $this->Validate(request(),
-        [
-            'usuario' => 'usuario',
-            'clave' => 'min:6'
-        ]);
+        $user = Usuario::where('usuario', $request->input('usuario'))
+                ->where('clave', md5($request->input('clave')))
+                ->first();
 
-        if (Auth::attempt($credenciales))
+        if ($user)
         {
-            returnview('/Welcome');
+            //dd('Entro');
+            Auth::login($user);
+            return view('home');
         }
-        else
-        {
+        else{
+            //return view('home');
             return back()
                 ->withErrors(['usuario'=>trans('auth.failed')])
                 ->withInput(request(['usuario']));

@@ -8,51 +8,21 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="login-logo">
-                                    <img src="imagenes/UATF-1.jpg" height="150px" width="80px">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/e/e0/Escudouatf.png" height="150px" width="80px">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="login-details">
                                     <ul class="nav nav-tabs navbar-right">
-                                        <li><a data-toggle="tab" href="#register">Registro</a></li>
-                                        <li class="active"><a data-toggle="tab" href="#login">Ingresar</a></li>
+                                        <li><a data-toggle="tab" id="alog" href="#login">Ingresar</a></li>
                                     </ul>
-                                </div>
+                                </di2v>
                             </div>
                         </div>
                     </div>
 
                     <div class="tab-content">
-                        <div id="register" class="tab-pane active">
-                            <div class="login-inner">
-                                <div class="title">
-                                    <h1>Universidad Autonoma Tomas Frias</h1>
-                                </div>
-                                <div class="login-form">
-                                    @include('error')
-                                    <form action="{{url('/registrar')}}" method="POST">
-                                        {{csrf_field()}}
-                                        <div class="form-details">
-                                            <label class="nro_dip">
-                                                <input type="text" name="nro_dip" placeholder="Carnet de Identidad" id="nro_dip">
-                                            </label>
-                                            <label class="nombres">
-                                                <input type="text" name="nombres" placeholder="Nombre Completo" id="nombres">
-                                            </label>
-                                            <label class="usuario">
-                                                <input type="text" name="usuario" placeholder="Usuario" id="usuario">
-                                            </label>
-                                            <label class="clave">
-                                                <input type="password" name="clave" placeholder="Contraseña" id="clave">
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="form-btn" >Aceptar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="login" class="tab-pane fade in ">
+                        <div id="login" class="tab-pane">
                             <div class="login-inner">
                                 <div class="title">
                                     <h1>Universidad Autonoma Tomas Frias</h1>
@@ -68,23 +38,23 @@
                                                 <input type="password" name="clave" placeholder="Contraseña" id="clave">
                                             </label>
                                             <label class="gestion">
-                                                <select class="form-control">
-                                                    <option value="1">2019</option>
-                                                    <option value="2">2018</option>
-                                                    <option value="3">2017</option>
-                                                </select>
+                                                
                                             </label>
                                         </div>
-                                        <button type="submit" class="form-btn">Aceptar</button>
+                                        <button type="submit" class="btn btn-primary btn-lg">Aceptar</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@stop
+    <script>
+    $(document).ready(function(){
+        $('a#alog').click();
+        console.log('entro');
+    });
+    </script>
+@endsection

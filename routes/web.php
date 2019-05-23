@@ -3,7 +3,6 @@
 Route::get('/', function () {
     return view('LoginUser');
 });
-Route::post ('/registrar','LoginUsuarioController@RegistroCliente');
 Route::post ('/verificar','LoginUsuarioController@LoginUsuario');
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -39,8 +38,8 @@ Route::get('invdetalles/{id_inv_det}/destroy',[
     'as' => 'invdetalles.destroy'
 ]);
 
-Route::get('/pdf/{ofc_cod}', 'OficinaController@pdf');
-Route::get('/pdfInv/{inv_ofi_cod}', 'InventarioController@pdfInv');
+Route::get('/pdf/{ofc_cod}', 'OficinaController@pdf')->name('pdf');
+Route::get('/pdfInv/{inv_ofi_cod}', 'InventarioController@pdfInv')->name('pdfInv');
 Route::get('generarQR/{criterioOficina}/{criterioActivo}', 'OficinaController@generarQR');
 Route::get('generarQRC/{criterioOficinarev}/{criterioActivorev}', 'OficinaController@generarQRC');
 

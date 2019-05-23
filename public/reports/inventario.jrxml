@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inventario" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6a54a574-56ca-468e-9b95-9abbde2cbb7b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="inventario_reporte"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="test" class="java.lang.Integer"/>
+	<parameter name="SQL" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SELECT DISTINCT activos.codigo,"+
+		"activos.act_can,"+
+		"activos.act_des,"+
+		"activos.act_des_det,"+
+		"activos.act_imp_bs,"+
+		"activos.act_estado,"+
+		"activos.act_ofc_cod,"+
+		"oficina.ofc_des "+
+		"FROM act.activos as activos "+
+		"JOIN act.oficina as oficina "+
+		"ON activos.act_ofc_cod = oficina.ofc_cod "+
+		"WHERE activos.act_ofc_cod = "+$P{test}+" "]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT DISTINCT detalle.act_codigo,
+		detalle.exi_act,
+		detalle.act_can,
+		detalle.act_des,
+		detalle.act_des_det,
+		detalle.act_val_neto,
+		detalle.act_estado,
+		detalle.act_ofc_cod,
+		(iif (detalle.observacion <> '', detalle.observacion,'')),
+		detalle.observacion,
+		inv.inv_ofi_cod,
+		trim(inv.inv_resp_actual),
+		trim(inv.inv_resp_nuevo),
+		trim(inv.resp_inv),
+		trim(inv.resp_unidad),
+		trim(inv.inv_ofi_des)
+		FROM act.inven_detalle as detalle 
+		JOIN act.inventarios as inv 
+		ON detalle.act_ofc_cod = inv.inv_ofi_cod 
+		WHERE detalle.act_ofc_cod =  $P{test}
+		ORDER BY detalle.exi_act]]>
+	</queryString>
+	<field name="act_codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_codigo"/>
+	</field>
+	<field name="exi_act" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="exi_act"/>
+	</field>
+	<field name="act_can" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="act_can"/>
+	</field>
+	<field name="act_des" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_des"/>
+	</field>
+	<field name="act_des_det" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_des_det"/>
+	</field>
+	<field name="act_val_neto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="act_val_neto"/>
+	</field>
+	<field name="act_estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_estado"/>
+	</field>
+	<field name="act_ofc_cod" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="act_ofc_cod"/>
+	</field>
+	<field name="iif" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="iif"/>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="observacion"/>
+	</field>
+	<field name="inv_ofi_cod" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="inv_ofi_cod"/>
+	</field>
+	<field name="btrim" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<field name="COLUMN_13" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<field name="COLUMN_14" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<field name="COLUMN_15" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<field name="COLUMN_16" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="154" splitType="Stretch">
+			<staticText>
+				<reportElement x="120" y="0" width="340" height="20" forecolor="#3A6BC7" uuid="1ef9c428-0729-434d-bcd7-63b01fea6f85"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD AUTÓNOMA "TOMAS FRÍAS"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="20" width="340" height="20" forecolor="#3A6BC7" uuid="d1db9aaa-d158-4bdb-a562-dec66982c53a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN ADMINISTRATIVA Y FINANCIERA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="40" width="340" height="20" forecolor="#3A6BC7" uuid="a6377dc3-0bd4-4638-a35e-9ace6c9d7926"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DIVISIÓN DE BIENES E INVENTARIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="40" width="80" height="20" forecolor="#3A6BC7" uuid="8a096448-c500-43ab-a312-ec39fa6e8f46"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tel. 62-27332]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="60" width="81" height="20" forecolor="#3A6BC7" uuid="e80d943f-7019-44e1-ba06-97c10745613a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fax. 62-23022]]></text>
+			</staticText>
+			<image>
+				<reportElement x="20" y="0" width="100" height="80" forecolor="#3A6BC7" backcolor="#3A6BC7" uuid="1dd4c0fd-f44a-4437-bc13-c6890f726eac"/>
+				<imageExpression><![CDATA["C:/Users/VictorH/JaspersoftWorkspace/MyReports/UATF-1.jpg"]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="32" y="110" width="530" height="22" uuid="ea23c0ad-f3cc-4c70-98c4-95adacfe5aac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["INVENTARIO FÍSICO VALORADO DE " + $F{COLUMN_16}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="80" y="134" width="400" height="20" uuid="cbbb1638-14be-4d31-92d7-3ad844a2ceb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35">
+			<staticText>
+				<reportElement x="30" y="10" width="44" height="20" uuid="9652fe94-ee8d-4a7b-82cb-e2250d3c4e09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="11" width="40" height="19" uuid="0504c3be-dafa-43f6-8e5b-73a900881950"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="11" width="240" height="19" uuid="da62cb06-d82b-46b8-b66e-b4d8ebc0d10f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="1" width="40" height="29" uuid="1191bfdd-1092-4e64-b8de-72d120c0cad3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR NETO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="531" y="1" width="40" height="29" isPrintWhenDetailOverflows="true" uuid="c2b13393-0819-4941-9078-f7b46bd944eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DEL BIEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="10" width="40" height="20" uuid="09c090e8-2640-4148-9d5a-9a824f88683e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="11" width="20" height="19" uuid="009b0487-3a19-4409-b821-0cd79bde31a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VER.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="480" y="10" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="3f4e9041-af11-4857-9e8c-53593708f157"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBS.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<line>
+				<reportElement x="0" y="0" width="570" height="1" forecolor="#999393" uuid="70d04060-a47d-4db2-83e2-b91348cbdea3"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="20" height="20" uuid="361847e9-1013-4ee9-8b20-b34a2dc56768"/>
+				<textElement textAlignment="Left">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{exi_act}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="0" width="44" height="20" isPrintWhenDetailOverflows="true" uuid="fa814916-2cd9-48b8-a124-c60c67c5286a"/>
+				<textElement textAlignment="Left">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="80" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="8ec6924d-b03b-4a8c-ba0d-eabff38f7682"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_can}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="124" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="3733bf76-b7ef-45c2-8a85-d9842134181a"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_can}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="180" y="0" width="240" height="20" uuid="ab23d77f-50af-4f09-ae47-609bdbacce70"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_des_det}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="430" y="0" width="40" height="20" uuid="5b9bbf1a-f429-4f2d-a7c5-fbd9e087b4c5"/>
+				<textElement textAlignment="Right">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_val_neto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="480" y="0" width="40" height="20" uuid="edcc0ec4-731c-4c4d-8ecc-b4a027c0fa10"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{iif}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="530" y="0" width="40" height="20" uuid="18b2fd2e-d632-4428-8f19-c051bda038de"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_estado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23">
+			<textField>
+				<reportElement mode="Opaque" x="481" y="4" width="50" height="13" backcolor="#FFFFFF" uuid="088899ea-0caa-45de-aedb-3259e8e5f4c1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="531" y="4" width="31" height="13" backcolor="#FFFFFF" uuid="81c951f0-1a88-4a9c-964a-a246c2442377"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="0" width="400" height="20" forecolor="#3A6BC7" uuid="a4e7ce9c-c7c1-4616-909d-60cb3afbcd8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Av. Serrudo esq. Civica piso 2 - Telf. 62-27332 - Interno 15]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="232">
+			<staticText>
+				<reportElement x="80" y="-3" width="119" height="30" uuid="f79becac-7e8b-4342-8069-53f3bdceabe5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTREGUE CONFORME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="110" height="30" uuid="a191152a-9dd4-42e9-a1f2-4c864e7d737d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBI CONFORME]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="19" y="90" width="240" height="30" uuid="6cf7827c-ac28-4c31-8dda-af1e6d47f0c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="54" y="180" width="170" height="20" uuid="17425f70-ac72-4293-9350-41365357c705"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE DEL INVENTARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="180" width="208" height="20" uuid="cc267825-af86-4b4a-8c79-02a97f750b20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JEFE DIVISIÓN BIENES E INVENTARIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="210" width="400" height="20" forecolor="#3A6BC7" uuid="35f2e155-38b9-4305-99ef-07c6f826cb7a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Av. Serrudo esq. Civica piso 2 - Telf. 62-27332 - Interno 15]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="481" y="214" width="50" height="13" backcolor="#FFFFFF" uuid="f4d0375e-534b-4192-a7f8-4d1093bf83aa"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="531" y="214" width="31" height="13" backcolor="#FFFFFF" uuid="07fe99cb-79aa-42e7-baee-de1b6fe5c1cf"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="19" y="160" width="240" height="20" uuid="e56dc4c4-af2f-4bc8-ba29-2d0ed6303ac6"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Lic. " + $F{COLUMN_14}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="308" y="70" width="240" height="20" uuid="4839b735-39b5-47d6-820d-ffe0efb70734"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="90" width="240" height="30" uuid="1bb09c01-d811-4513-a6d1-6fba51376491"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="19" y="70" width="240" height="20" uuid="18679795-fac1-4ceb-8b89-18b1194ee462"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{btrim}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="310" y="160" width="240" height="20" uuid="58528ade-06cd-42f6-b5f5-bfe06bed6caa"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["V°B°             MSc. Lic. " + $F{COLUMN_15}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

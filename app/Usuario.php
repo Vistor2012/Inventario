@@ -9,5 +9,12 @@ use Illuminate\Auth\Authenticatable;
 class Usuario extends Model implements AuthenticatableContract
 {
     use Authenticatable;
-    protected $table ="public.personas";
+    protected $table ="personas";
+    protected $connection = 'auth_db';
+    protected $primaryKey = 'id_persona';
+	
+	public function getAuthPassword()
+	{
+	    return $this->clave;
+	}
 }

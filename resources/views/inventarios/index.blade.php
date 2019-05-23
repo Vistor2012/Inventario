@@ -9,11 +9,6 @@
           <button type="button" class="btn btn-primary btn-lg">Registrar Nuevo Inventario</button>
         </a>
       </div>
-      <div class="col-md-6">
-        <a href="{{ url('pdfInv') }}/{{ $inventario->inv_ofi_cod }}">
-          <button type="button" class="btn btn-primary">Imprimir</button>
-        </a>
-      </div>
     </div>
   </div>
   <div class="box-body col-md-12">
@@ -43,9 +38,9 @@
             <a href="{{ route('inventarios.show', $inv->id_inv) }}">
               <button type="button" class="btn btn-primary">Ver Detalle</button>
             </a>
-            <a href="{{ route('inventarios.edit',$inv->id_inv) }}">
-                <button type="button" class="btn btn-warning">Modificar</button>
-              </a>
+            <a href="{{ route('pdfInv', ['inv_ofi_cod' => $inv->inv_ofi_cod])}}">
+              <button type="button" class="btn btn-primary">Imprimir</button>
+            </a>
               <a href="{{ route('inventarios.destroy', $inv->id_inv) }}" onclick="return confirm('¿Seguro que deseas eliminarlo?')">
                 <button type="button" class="btn btn-danger">Eliminar</button>
               </a>

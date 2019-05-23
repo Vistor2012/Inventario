@@ -17,7 +17,7 @@ class OficinaController extends Controller
 {
   public function index(Request $request)
   {
-      $oficina = Oficina::orderby('ofc_cod','ASC')->paginate(10);
+      $oficina = Oficina::select('ofc_cod','ofc_des')->orderby('ofc_cod','ASC')->groupBy('ofc_cod','ofc_des')->paginate(10);
       //$oficina=Oficina::
       //dd($oficina);
       return view('oficinas.index')->with('oficina', $oficina);

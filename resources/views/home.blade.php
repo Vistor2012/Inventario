@@ -1,68 +1,73 @@
 @extends('layouts.app')
+@push('styles')
+<style type="text/css">
+  .modal-backdrop{display: none;}
+</style>
+@endpush
 @section('content')
 <div>
     <div class="container">
-      <div class="row">
-          <div class="btn-group" role="group" aria-label="Basic example">
-              <div class="btn-group" role="group">
-                  <td>
-                      <!-- Trigger the modal with a button -->
-                    <button type="button" class="btn btn-success openBtn">Importar Archivos Excel</button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" role="dialog">
-                      <div class="modal-dialog">
-                          <!-- Modal content-->
-                          <div class="modal-content">
-                              <div class="panel-body">
-                                <div class="modal-header">
-                                  <h4 class="modal-title">Seleccionar Excel</h4>
-                                  <div class="form-group">
-                                    <a href="{{ url('pdf') }}/{{ $ofi->ofc_cod }}">
-                                      <button type="button" class="btn btn-primary">Imprimir</button> 
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="modal-body">
-                                    <h4 class="modal-title">Importar Excel</h4>
-                                </div>
-                                <div class="form-group">   
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                  </div>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <script>
-                      $('.openBtn').on('click',function(){
-                          $('.modal-body').load('content.html',function(){
-                              $('#myModal').modal({show:true});
-                          });
-                      });
-                      </script>
-                  </td>
+      <div class="row" style="padding-top: 20%;">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="row">
+              <div class="col-xs-12">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#exampleModal"><i class="glyphicon glyphicon-save"></i> Importar Excel</button>
+                
               </div>
           </div>
-      </div>
-      <div class="row">
-          <div class="btn-group" role="group" aria-label="Basic example">
-              <div class="btn-group" role="group">
-                  <a href="{{ route('oficinas.index') }}">
-                    <button type="button" class="btn btn-primary">Oficinas e Unidades</button>
-                  </a>
+          <hr>
+          <div class="row">
+              <div class="col-xs-12">
+                      <a href="{{ route('oficinas.index') }}">
+                        <button type="button" class="btn btn-primary btn-block btn-lg"><i class="glyphicon glyphicon-book"></i> Oficinas e Unidades</button>
+                      </a>
               </div>
           </div>
-      </div>
-      <div class="row">
-          <div class="btn-group" role="group" aria-label="Basic example">
-              <div class="btn-group" role="group">
-                  <a href="{{ route('inventarios.index') }}">
-                    <button type="button" class="btn btn-primary">Realizar Inventario</button>
-                  </a>
+          <hr>
+          <div class="row">
+              <div class="col-xs-12">
+                      <a href="{{ route('inventarios.index') }}">
+                        <button type="button" class="btn btn-primary btn-block btn-lg"><i class="glyphicon glyphicon-edit"></i> Realizar Inventario</button>
+                      </a>
               </div>
           </div>
+        </div>
       </div>
     </div>
-</div>    
+</div> 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Importar Archivos Excel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+            <form action="{{ route('import')}}" method="POST" enctype="multipart/form-data">
+                <span class="input-group-prepend">
+                    {{ csrf_field() }}
+                    <input type="file" name="import_file" class="from-control" />
+                    <input type="submit" name="Import"class="btn btn-primary" />
+                </span>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>  
 @endsection
+
+@push('scripts')
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  })
+</script>
+@endpush

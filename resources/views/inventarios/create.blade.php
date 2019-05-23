@@ -343,21 +343,23 @@
                 dataType: 'JSON',
                 success: function (data) {
                     if (data.length) {
-                        $('input#inv_des').val(data[0].inv_des);
+                        $('textarea#inv_des').html(data[0].inv_des);
                         $('input#inv_resp_actual').val(data[0].inv_resp_actual);
                         $('input#inv_resp_nuevo').val(data[0].inv_resp_nuevo);
                         $('input#obs_inv').val(data[0].obs_inv);
                         $('input#resp_inv').val(data[0].resp_inv);
                         $('input#resp_unidad').val(data[0].resp_unidad);
                         $('input#fec_inv').val(data[0].fec_inv);
+                        $('input#gestion').val(data[0].gestion);
                     } else {
-                        $('input#inv_des').val('');
+                        $('textarea#inv_des').html('');
                         $('input#inv_resp_actual').val('');
                         $('input#inv_resp_nuevo').val('');
                         $('input#obs_inv').val('');
                         $('input#resp_inv').val('');
                         $('input#resp_unidad').val('');
                         $('input#fec_inv').val('');
+                        $('input#gestion').val('');
                     }
                 },
                 fail: function () {
@@ -407,6 +409,7 @@
                 dataType: 'JSON',
                 data: datos,
                 success: function (data) {
+                    console.log(data);
                     for (let i = 0; i < data.length; i++) {
                         html +=
                                 `<tr id="tr${i}">
@@ -421,6 +424,7 @@
                                     <td class="text-center">${data[i].act_can}</td>
                                     <td class="text-center">
                                         <select id="act_estado${i}" class="form-control">
+                                            <option value=""></option>
                                             <option value="Bueno">Bueno</option>
                                             <option value="Malo">Regular</option>
                                             <option value="Regular">Malo</option>
