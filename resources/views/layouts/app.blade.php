@@ -11,7 +11,6 @@
     <title>{{ config('app.name', 'Inventario') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{url('/css/style.css')}}">
     
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -26,7 +25,6 @@
 
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

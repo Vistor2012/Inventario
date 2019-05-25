@@ -1,9 +1,9 @@
 @extends('layouts.app')
+
 @push('styles')
-<style type="text/css">
-  .modal-backdrop{display: none;}
-</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 @endpush
+
 @section('content')
 <title>Activos</title>
 	<div class="col-md-12 col-lg-12">
@@ -16,7 +16,7 @@
         </a>
       </div>
 			<div class="form-row">
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="table_id" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Codigo </th>
@@ -77,7 +77,7 @@
         </div>
         <div class="modal-body">
           <center>
-            <img src="#" class="img-responsive" alt="Solvetic" id="image-QR" width="60%" height="60%">          
+            <img src="#" class="img-responsive" alt="Solvetic" id="image-QR" width="200%" height="">          
           </center>
         </div>
         <div class="modal-footer">
@@ -96,7 +96,7 @@
       </div>
       <div class="modal-body">
         <center>
-          <img src="#" class="img-responsive" alt="Solvetic" id="image-QR" width="60%" height="60%">          
+          <img src="#" class="img-responsive" alt="Solvetic" id="image-QRC" width="200%" height="">          
         </center>
       </div>
       <div class="modal-footer">
@@ -107,6 +107,8 @@
 </div>
 @endsection
 @push('scripts')
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
   <script type="text/javascript">
       function generarQR($idOfc , $idAct){
               var route = "{{url('generarQR')}}/"+$idOfc + "/" + $idAct;
@@ -121,8 +123,15 @@
               $.get(route, function(data){
                 console.log(data);
                  $asset = '{{ asset('') }}';
-                 $("#image-QR").attr("src", $asset + 'imagenes/qr/' + data);
+                 $("#image-QRC").attr("src", $asset + 'imagenes/qr/' + data);
               });
       }
+      $(document).ready( function () {
+        $('#table_id').DataTable({
+          language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+          }
+        });
+      });
   </script>
 @endpush

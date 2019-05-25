@@ -1,18 +1,22 @@
 @extends('layouts.app')
+
+@push('styles')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+@endpush
+
 @section('content')
 <div class="box">
-  <div class="box-header with-border">
+  <div class="box-header with-border row">
     <center><h1 class="box-title">Lista de Oficinas</h1></center>
     <br>
-      <div class="col-md-8 col-xs-offset-2">
+      <div class="col-md-10 col-xs-offset-1">
         <form action="/search" method="get" >
           <div class="row">
-            <div class="col-xs-8">
-              <input type="search" name="search" class="form-control">
+            <div class="col-xs-3 col-xs-offset-6">
+              <button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-primary btn-block"><i class="glyphicon glyphicon-import"></i> Importar Excel</button>
             </div>
-            <div class="col-xs-4">
-              {{ csrf_field() }}
-              <button type="submit" class="btn btn-primary">Buscar Oficina</button>
+            <div class="col-xs-3">
+              <a href="{{asset('Plantilla.xlsx')}}" class="btn btn-success btn-block"><i class="glyphicon glyphicon-download"></i> Descargar Plantilla</a>
             </div>
           </div>
         </form>
@@ -20,10 +24,9 @@
   </div>
   <br>
   <br>
-  <br>
   <div class="row">
     <div class="box-body col-md-10 col-xs-offset-1">
-      <table id="example1" class="table table-bordered table-striped">
+      <table id="table_id" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>Codigo Oficina</th>
@@ -31,7 +34,6 @@
             <th>Opciones</th>
           </tr>
         </thead>
-        
         <tbody>
           @foreach($oficina as $ofi)
           <tr>
@@ -39,10 +41,10 @@
             <td>{{ $ofi->ofc_des }}</td>
             <td class="text-center">
               <a href="{{ route('oficinas.show', $ofi->ofc_cod) }}">
-                <button type="button" class="btn btn-primary btn-xs">Ver Activos</button>
+                <button type="button" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-edit"></i> Ver Activos</button>
               </a>
               <a href="{{ route('pdf', ['ofc_cod' => $ofi->ofc_cod])}}">
-                <button type="button" class="btn btn-primary btn-xs">Descargar</button>
+                <button type="button" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-download"></i> Descargar</button>
               </a>
             </td>
           </tr>
@@ -51,13 +53,53 @@
       </table>
     </div>
   </div>
-  <div class="row">
-    <center>
-    {{ $oficina->links() }}
-    </center>
-  </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">Importar Archivos Excel</h5>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+            <form action="{{ route('import')}}" method="POST" enctype="multipart/form-data">
+                <span class="input-group-prepend">
+                    {{ csrf_field() }}
+                    <input type="file" name="import_file" class="from-control" />
+                    <input type="submit" name="Import"class="btn btn-primary" />
+                </span>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>  
 @endsection
+
+@push('scripts')
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  });
+
+  $(document).ready( function () {
+    $('#table_id').DataTable({
+      language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+      }
+    });
+  });
+</script>
+@endpush
 
 
 

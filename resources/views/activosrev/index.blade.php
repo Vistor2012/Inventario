@@ -1,27 +1,31 @@
 @extends('layouts.app')
+
+@push('styles')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+@endpush
+
 @section('content')
 <div class="box">
   <div class="box-header with-border">
-    <center><h1 class="box-title">Lista de Activos Revalorizados</h1></center>
-    <div class="box-tools pull-right">
-      <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-        <i class="fa fa-minus"></i></button>
-    </div>
-    <div class="btn-group" role="group">
+    <center><h1 class="box-title">Lista de Activos Importados</h1></center>
+    <div class="col-xs-2" role="group" >
         <a href="{{ route('oficinas.index') }}">
-            <button type="button" class="btn btn-primary">Oficinas</button>
+            <button type="button" class="btn btn-primary btn-block">Oficinas</button>
         </a>
     </div>
   </div>
-  <div class="box-body">
+  <br>
+  <br>
+  <div class="box-body col-md-10 col-xs-offset-1">
     <br>
-    <table id="example1" class="table table-bordered table-striped">
+    <table id="table_id" class="table table-bordered table-striped">
       <thead>
         <tr>
           <th>Codigo </th>
           <th>Descripcion</th>
           <th>Descripcion Detallada</th>
           <th>Cantidad</th>
+          <th>Codigo de oficina</th>
           <th>Estado del Bien</th>
 
       </thead>
@@ -32,6 +36,7 @@
           <td>{{ $acti->act_des }}</td>
           <td>{{ $acti->act_des_det }}</td>
           <td>{{ $acti->act_can }}</td>
+          <td>{{ $acti->act_ofc_cod}}</td>
           <td>{{ $acti->act_estado }}</td>
         </tr>
         @endforeach
@@ -44,3 +49,21 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  });
+
+  $(document).ready( function () {
+    $('#table_id').DataTable({
+      language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+      }
+    });
+  });
+</script>
+@endpush

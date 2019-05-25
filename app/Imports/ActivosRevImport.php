@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\ActivoRev;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\Importable;
 use Carbon\Carbon;
 
 class ActivosRevImport implements ToModel
@@ -13,10 +14,18 @@ class ActivosRevImport implements ToModel
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+    
+    use Importable;
+
     public function model(array $row)
     {
+
+        if (!(int) $row[4]) {
+            return null;
+        }
+
         $xls_date1 = $row[4];
-        //dd((int) $row[4]);
+        //dd( $row[4]);
         $unix_date1 = ($xls_date1 - 25569) * 86400;
         $xls_date1 = 25569 + ($unix_date1 / 86400);
         $unix_date1 = ($xls_date1 - 25569) * 86400;

@@ -17,21 +17,13 @@ class OficinaController extends Controller
 {
   public function index(Request $request)
   {
-      $oficina = Oficina::select('ofc_cod','ofc_des')->orderby('ofc_cod','ASC')->groupBy('ofc_cod','ofc_des')->paginate(10);
-      //$oficina=Oficina::
-      //dd($oficina);
+      $oficina = Oficina::select('ofc_cod','ofc_des')->orderby('ofc_cod','ASC')->groupBy('ofc_cod','ofc_des')->get();
       return view('oficinas.index')->with('oficina', $oficina);
   }
   public function create(){
       return view('oficinas.create');
   }
-  public function search(Request $request){
-    $search = $request->get('search');
-    //($search);
-    $oficina = Oficina::where('ofc_des', 'like', '%'.$search.'%')->paginate(5);
-    //dd($oficina);
-    return view('oficinas.index',['oficina' => $oficina]);
-  }
+
   public function store(Request $request)
   {
       $ofi=new Oficina($request->all());
@@ -96,7 +88,7 @@ class OficinaController extends Controller
       $datosQR = $datosQR . "Oficina: "     . $oficina[0]->ofc_des ."\n";
       $datosQR = $datosQR . "Codigo: "      . $activo[0]->codigo ."\n";
       $datosQR = $datosQR . "Descripcion: " . $activo[0]->act_des ."\n";
-      $datosQR = $datosQR . "Adquisicion: "     . $activo[0]->act_imp_bs ."\n";
+      $datosQR = $datosQR . "Adquisicion: " . $activo[0]->act_fec_adq ."\n";
       $datosQR = $datosQR . "Estado: "      . $activo[0]->act_estado ."\n";
       $rutaImagen = $path . $activo[0]->id_act. '.png';
       $path = $activo[0]->id_act. '.png';
@@ -132,9 +124,48 @@ class OficinaController extends Controller
   }
   public function import(Request $request)
   {
-      //$activorev=Excel::toCollection(new ActivosRevImport, $request->file('import_file'));
-      //dd($activorev);
-      Excel::import(new ActivosRevImport, $request->file('import_file'));
+      $collection = (new ActivosRevImport)->toArray($request->file('import_file'));
+      $flag = false;
+      foreach ($collection[0] as $row) {
+        if($flag){
+          \DB::beginTransaction();
+          try{
+            
+            $xls_date1 = (int) $row[4];
+            //dd( $row[4]);
+            $unix_date1 = ($xls_date1 - 25569) * 86400;
+            $xls_date1 = 25569 + ($unix_date1 / 86400);
+            $unix_date1 = ($xls_date1 - 25569) * 86400;
+
+            $xls_date2 = (int) $row[11];
+            $unix_date2 = ($xls_date2 - 25569) * 86400;
+            $xls_date2 = 25569 + ($unix_date2 / 86400);
+            $unix_date2 = ($xls_date2 - 25569) * 86400;
+
+            $activo = new ActivoRev([
+              'codigo'        => $row[0],
+              'act_des'       => $row[1],
+              'act_des_det'   => $row[2],
+              'act_can'       => $row[3],
+              'act_fec_adq'   => date('Y-m-d', (int) $unix_date1),
+              'act_par_cod'   => $row[5],
+              'act_vida_util' => $row[6],
+              'act_estado'    => $row[7],
+              'act_ges'       => $row[8],
+              'act_ofc_cod'   => $row[9],
+              'estado'        => $row[10],
+              'fec_cre'       => date('Y-m-d', (int) $unix_date2),
+              'act_imp_bs'    => $row[12],
+            ]);
+            $activo->save();
+            \DB::commit();
+          }catch(\Illuminate\Database\QueryException $exception){
+            \DB::rollback();
+          }
+        }else{
+          $flag = true;
+        }
+      }
       return redirect()->route('activosrev.index')->with('success', 'All good!');
   }
 }
