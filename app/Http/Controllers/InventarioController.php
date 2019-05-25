@@ -12,7 +12,7 @@ class InventarioController extends Controller
 {
   public function index(Request $request)
   {
-    $inventario = Inventario::orderby('inv_ofi_cod','DESC')->paginate(10);
+    $inventario = Inventario::orderby('fec_inv','DESC')->paginate(10);
     //dd($inventario);
     return view('inventarios.index')->with('inventario', $inventario);
   }
@@ -33,14 +33,9 @@ class InventarioController extends Controller
   }
   public function store(Request $request)
   { 
-      \DB::beginTransaction();
-      try{
-        $inv=new Inventario($request->all());
-        $inv->save();
-        \DB::commit();
-      }catch(\Illuminate\Database\QueryException $e) {
-        \DB::rollback();
-      }
+      $inv=new Inventario($request->all());
+      $inv->save();
+      $inv = Inventario::select('id_inv')->orderBy('id_inv','desc')->first();
 
       $activo = Activo::where('act_ofc_cod', $request->input('inv_ofi_cod'))
           ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
@@ -53,7 +48,7 @@ class InventarioController extends Controller
 
       $activos = $rev->concat($activo)->toArray();
       //cruzado de datos
-      $revisados = InvenDetalle::where('act_ofc_cod', $request->input('inv_ofi_cod'))
+      /*$revisados = InvenDetalle::where('act_ofc_cod', $request->input('inv_ofi_cod'))
           ->select('act_codigo','act_des','act_des_det','act_can', 'act_val_neto')
           ->orderby('act_ofc_cod', 'desc')
           ->get()->toArray();
@@ -71,11 +66,11 @@ class InventarioController extends Controller
         if ($flag) {
           array_push($activos_fin,$activos[$i]);
         }
-      }
+      }*/
 
-      return response()->json($activos_fin);
+      return response()->json([$inv,$activos]);
   }
-  public function show($ofi_cod){
+  public function show($id_inv){
       $inv=Inventario::find($id_inv);
       return view('inventarios.show')->with('inv', $inv);
   }

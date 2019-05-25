@@ -20,7 +20,8 @@ class Inventario extends Model
         'resp_inv',
         'fec_cre',
         'resp_unidad',
-        'gestion'
+        'gestion',
+        'estado'
     ];
   protected $primaryKey = 'id_inv';
 

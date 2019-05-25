@@ -37,6 +37,7 @@ Route::get('invdetalles/{id_inv_det}/destroy',[
     'uses' => 'InvenDetalleController@destroy',
     'as' => 'invdetalles.destroy'
 ]);
+Route::get('/continuar/{id_inv}/{inv_ofi_cod}','InvenDetalleController@continuar')->name('continuar');
 
 Route::get('/pdf/{ofc_cod}', 'OficinaController@pdf')->name('pdf');
 Route::get('/pdfInv/{inv_ofi_cod}', 'InventarioController@pdfInv')->name('pdfInv');

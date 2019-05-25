@@ -84,4 +84,41 @@ class InvenDetalleController extends Controller
         flash('a sido borrado de forma exitosa', 'danger');
         return redirect()->route('invdetalles.index');
     }
+    public function continuar($id_inv, $inv_ofi_cod)
+    { 
+        $activo = Activo::where('act_ofc_cod', $inv_ofi_cod)
+            ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
+            ->orderby('act_ofc_cod', 'desc')
+            ->get();
+        $rev = ActivoRev::where('act_ofc_cod', $inv_ofi_cod)
+            ->select('codigo','act_des','act_des_det','act_can', 'act_imp_bs')
+            ->orderby('act_ofc_cod', 'desc')
+            ->get();
+
+        $activos = $rev->concat($activo)->toArray();
+        //cruzado de datos
+        $revisados = InvenDetalle::where('act_ofc_cod', $inv_ofi_cod)
+            ->where('id_inv',$id_inv)
+            ->select('act_codigo','act_des','act_des_det','act_can', 'act_val_neto')
+            ->orderby('act_ofc_cod', 'desc')
+            ->get()->toArray();
+        $num_act = sizeof($activos);
+        $num_rev = sizeof($revisados);
+        $flag = true;
+        $activos_fin = array();
+        for($i = 0; $i < $num_act; $i++){
+          $flag = true;
+          for($j = 0; $j < $num_rev; $j++){
+            if($activos[$i]['codigo'] == $revisados[$j]['act_codigo']){
+              $flag = false;
+            }
+          }
+          if ($flag) {
+            array_push($activos_fin,$activos[$i]);
+          }
+        }
+
+        $data = [$activos,$activos_fin];
+        return view('inventarios.continuar')->with('data', $data);
+    }
 }

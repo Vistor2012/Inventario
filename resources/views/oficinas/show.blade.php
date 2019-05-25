@@ -90,8 +90,9 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="Title" align="center"> Codigo QR </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        
       </div>
       <div class="modal-body">
         <center>
@@ -104,24 +105,24 @@
     </div>
   </div>
 </div>
-  @endsection
-  @push('scripts')
-<script type="text/javascript">
-    function generarQR($idOfc , $idAct){
-            var route = "{{url('generarQR')}}/"+$idOfc + "/" + $idAct;
-            $.get(route, function(data){
-              console.log(data);
-               $asset = '{{ asset('') }}';
-               $("#image-QR").attr("src", $asset + 'imagenes/qr/' + data);
-            });
-    }
-
-    function generarQRC($idOfi , $idActi){
-            var route = "{{url('generarQRC')}}/"+$idOfi + "/" + $idActi;
-            $.get(route, function(data){
-              console.log(data);
-               $asset = '{{ asset('') }}';
-               $("#image-QR").attr("src", $asset + 'imagenes/qr/' + data);
-            });
-    }
-</script>
+@endsection
+@push('scripts')
+  <script type="text/javascript">
+      function generarQR($idOfc , $idAct){
+              var route = "{{url('generarQR')}}/"+$idOfc + "/" + $idAct;
+              $.get(route, function(data){
+                console.log(data);
+                 $asset = '{{ asset('') }}';
+                 $("#image-QR").attr("src", $asset + 'imagenes/qr/' + data);
+              });
+      }
+      function generarQRC($idOfi , $idActi){
+              var route = "{{url('generarQRC')}}/"+$idOfi + "/" + $idActi;
+              $.get(route, function(data){
+                console.log(data);
+                 $asset = '{{ asset('') }}';
+                 $("#image-QR").attr("src", $asset + 'imagenes/qr/' + data);
+              });
+      }
+  </script>
+@endpush

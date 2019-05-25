@@ -21,11 +21,13 @@
 	<queryString>
 		<![CDATA[SELECT DISTINCT detalle.act_codigo,
 		detalle.exi_act,
+		(iif (detalle.exi_act <> '0', 'existe', 'no existe')),
 		detalle.act_can,
 		detalle.act_des,
 		detalle.act_des_det,
 		detalle.act_val_neto,
 		detalle.act_estado,
+		(iif (detalle.act_estado <> '', detalle.act_estado, '')),
 		detalle.act_ofc_cod,
 		(iif (detalle.observacion <> '', detalle.observacion,'')),
 		detalle.observacion,
@@ -34,18 +36,22 @@
 		trim(inv.inv_resp_nuevo),
 		trim(inv.resp_inv),
 		trim(inv.resp_unidad),
-		trim(inv.inv_ofi_des)
+		trim(inv.inv_ofi_des),
+		trim(inv.inv_des)
 		FROM act.inven_detalle as detalle 
 		JOIN act.inventarios as inv 
 		ON detalle.act_ofc_cod = inv.inv_ofi_cod 
 		WHERE detalle.act_ofc_cod =  $P{test}
-		ORDER BY detalle.exi_act]]>
+		ORDER BY detalle.exi_act DESC]]>
 	</queryString>
 	<field name="act_codigo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="act_codigo"/>
 	</field>
 	<field name="exi_act" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="exi_act"/>
+	</field>
+	<field name="iif" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="iif"/>
 	</field>
 	<field name="act_can" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="act_can"/>
@@ -62,10 +68,13 @@
 	<field name="act_estado" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="act_estado"/>
 	</field>
+	<field name="COLUMN_9" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="iif"/>
+	</field>
 	<field name="act_ofc_cod" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="act_ofc_cod"/>
 	</field>
-	<field name="iif" class="java.lang.String">
+	<field name="COLUMN_11" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="iif"/>
 	</field>
 	<field name="observacion" class="java.lang.String">
@@ -77,23 +86,26 @@
 	<field name="btrim" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
 	</field>
-	<field name="COLUMN_13" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
-	</field>
-	<field name="COLUMN_14" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
-	</field>
 	<field name="COLUMN_15" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
 	</field>
 	<field name="COLUMN_16" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
 	</field>
+	<field name="COLUMN_17" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<field name="COLUMN_18" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
+	<field name="COLUMN_19" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="btrim"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="154" splitType="Stretch">
+		<band height="192" splitType="Stretch">
 			<staticText>
 				<reportElement x="120" y="0" width="340" height="20" forecolor="#3A6BC7" uuid="1ef9c428-0729-434d-bcd7-63b01fea6f85"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -134,11 +146,11 @@
 				<imageExpression><![CDATA["C:/Users/VictorH/JaspersoftWorkspace/MyReports/UATF-1.jpg"]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="32" y="110" width="530" height="22" uuid="ea23c0ad-f3cc-4c70-98c4-95adacfe5aac"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="110" width="530" height="22" uuid="ea23c0ad-f3cc-4c70-98c4-95adacfe5aac"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["INVENTARIO FÍSICO VALORADO DE " + $F{COLUMN_16}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["INVENTARIO FÍSICO VALORADO DE " + $F{COLUMN_18}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="80" y="134" width="400" height="20" uuid="cbbb1638-14be-4d31-92d7-3ad844a2ceb2"/>
@@ -146,6 +158,11 @@
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="19" y="170" width="530" height="19" uuid="b968365c-52d1-4aa6-8661-f4c9583d6243"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_19}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -159,21 +176,21 @@
 				<text><![CDATA[CODIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="11" width="40" height="19" uuid="0504c3be-dafa-43f6-8e5b-73a900881950"/>
+				<reportElement x="80" y="10" width="40" height="20" uuid="0504c3be-dafa-43f6-8e5b-73a900881950"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CANT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="11" width="240" height="19" uuid="da62cb06-d82b-46b8-b66e-b4d8ebc0d10f"/>
+				<reportElement x="170" y="11" width="240" height="19" uuid="da62cb06-d82b-46b8-b66e-b4d8ebc0d10f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DESCRIPCION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="430" y="1" width="40" height="29" uuid="1191bfdd-1092-4e64-b8de-72d120c0cad3"/>
+				<reportElement x="420" y="1" width="40" height="29" uuid="1191bfdd-1092-4e64-b8de-72d120c0cad3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -194,14 +211,14 @@
 				<text><![CDATA[UNID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="11" width="20" height="19" uuid="009b0487-3a19-4409-b821-0cd79bde31a7"/>
+				<reportElement x="0" y="10" width="25" height="20" uuid="009b0487-3a19-4409-b821-0cd79bde31a7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VER.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="480" y="10" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="3f4e9041-af11-4857-9e8c-53593708f157"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="470" y="10" width="55" height="20" isPrintWhenDetailOverflows="true" uuid="3f4e9041-af11-4857-9e8c-53593708f157"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -210,66 +227,66 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="27" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<line>
 				<reportElement x="0" y="0" width="570" height="1" forecolor="#999393" uuid="70d04060-a47d-4db2-83e2-b91348cbdea3"/>
 			</line>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="20" height="20" uuid="361847e9-1013-4ee9-8b20-b34a2dc56768"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="1" width="25" height="19" uuid="361847e9-1013-4ee9-8b20-b34a2dc56768"/>
 				<textElement textAlignment="Left">
 					<font size="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{exi_act}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{iif}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="0" width="44" height="20" isPrintWhenDetailOverflows="true" uuid="fa814916-2cd9-48b8-a124-c60c67c5286a"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="1" width="44" height="19" isPrintWhenDetailOverflows="true" uuid="fa814916-2cd9-48b8-a124-c60c67c5286a"/>
 				<textElement textAlignment="Left">
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{act_codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="80" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="8ec6924d-b03b-4a8c-ba0d-eabff38f7682"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="80" y="1" width="40" height="19" isPrintWhenDetailOverflows="true" uuid="8ec6924d-b03b-4a8c-ba0d-eabff38f7682"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{act_can}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="124" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="3733bf76-b7ef-45c2-8a85-d9842134181a"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="124" y="1" width="40" height="19" isPrintWhenDetailOverflows="true" uuid="3733bf76-b7ef-45c2-8a85-d9842134181a"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{act_can}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="180" y="0" width="240" height="20" uuid="ab23d77f-50af-4f09-ae47-609bdbacce70"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="170" y="1" width="240" height="19" uuid="ab23d77f-50af-4f09-ae47-609bdbacce70"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{act_des_det}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="430" y="0" width="40" height="20" uuid="5b9bbf1a-f429-4f2d-a7c5-fbd9e087b4c5"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="420" y="1" width="40" height="19" uuid="5b9bbf1a-f429-4f2d-a7c5-fbd9e087b4c5"/>
 				<textElement textAlignment="Right">
 					<font size="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{act_val_neto}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="480" y="0" width="40" height="20" uuid="edcc0ec4-731c-4c4d-8ecc-b4a027c0fa10"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="470" y="1" width="55" height="19" uuid="edcc0ec4-731c-4c4d-8ecc-b4a027c0fa10"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{iif}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_11}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="530" y="0" width="40" height="20" uuid="18b2fd2e-d632-4428-8f19-c051bda038de"/>
-				<textElement>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="531" y="1" width="40" height="19" uuid="18b2fd2e-d632-4428-8f19-c051bda038de"/>
+				<textElement textAlignment="Right">
 					<font size="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{act_estado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_9}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -322,7 +339,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["RESPONSABLE ACTUAL DE " + $F{COLUMN_18}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="54" y="180" width="170" height="20" uuid="17425f70-ac72-4293-9350-41365357c705"/>
@@ -364,19 +381,19 @@
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Lic. " + $F{COLUMN_14}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="308" y="70" width="240" height="20" uuid="4839b735-39b5-47d6-820d-ffe0efb70734"/>
 				<textElement textAlignment="Center" verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_15}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="308" y="90" width="240" height="30" uuid="1bb09c01-d811-4513-a6d1-6fba51376491"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["NUEVO RESPONSABLE DE " + $F{COLUMN_18}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="19" y="70" width="240" height="20" uuid="18679795-fac1-4ceb-8b89-18b1194ee462"/>

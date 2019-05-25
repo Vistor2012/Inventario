@@ -17,7 +17,8 @@ class InvenDetalle extends Model
         'act_val_neto',
         'exi_act',
         'fec_cre',
-        'observacion'
+        'observacion',
+        'id_inv'
     ];
   protected $primaryKey = 'id_inv_det';
   public function Oficina()

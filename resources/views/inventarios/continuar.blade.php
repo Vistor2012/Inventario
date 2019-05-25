@@ -75,7 +75,7 @@
         }
 
         .wizard .nav-tabs > li {
-            width: 33.3%;
+            width: 50%;
         }
 
         .wizard li:after {
@@ -159,15 +159,6 @@
                         <div class="connecting-line"></div>
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
-                                <a href="#inventario" data-toggle="tab" aria-controls="inventario" role="tab"
-                                   title="inventario">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-folder-open"></i>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li role="presentation" class="disabled">
                                 <a href="#detalle" data-toggle="tab" aria-controls="detalle" role="tab" title="detalle">
                                     <span class="round-tab">
                                         <i class="glyphicon glyphicon-pencil"></i>
@@ -186,86 +177,7 @@
                         </ul>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane active" role="tabpanel" id="inventario">
-                            <div class="panel-body">
-                                <form method='POST' id='inv_form'>
-                                    <div class="form-group col-md-6">
-                                        <label>Codigo de la Unidad</label>
-                                        <select class="form-control select2 requerido" name="inv_ofi_cod"
-                                                id="inv_ofi_cod" value="{{old('inv_ofi_cod')}}">
-                                            <option value="">Seleccione una Opción</option>
-                                            @foreach($oficina as $ofi)
-                                                <option value="{{$ofi->ofc_cod}}">{{$ofi->ofc_cod}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Nombre de la Unidad</label>
-                                        <select class="form-control select2 requerido" name="oficina" id="oficina"
-                                                value="{{old('oficina')}}">
-                                            <option value="">Seleccione una Opción</option>
-                                            @foreach($oficina as $ofi)
-                                                <option value="{{$ofi->ofc_cod}}">{{$ofi->ofc_des}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <input type="hidden" name="inv_ofi_des" id="inv_ofi_des"
-                                           value="{{$oficina[0]->ofc_des}}">
-                                    <input id="prodId" name="prodId" type="hidden" value="xm234jq">
-                                    {{ csrf_field() }}
-                                    <div class="form-group col-md-12">
-                                        <label>Descripcion del Inventario</label>
-                                        <textarea type="text" name='inv_des' id='inv_des' class='form-control rounded-0' placeholder="Descripcion" required></textarea>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Responsable Actual de la Unidad</label>
-                                        <input type="text" name="inv_resp_actual" id="inv_resp_actual"
-                                               class="form-control" placeholder="Responsable Actual de la Unidad"
-                                               required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Nuevo Responsable de la Unidad</label>
-                                        <input type="text" name="inv_resp_nuevo" id="inv_resp_nuevo"
-                                               class="form-control" placeholder="Nuevo Responsable de la Unidad"
-                                               required>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="">Observaciones</label>
-                                        <textarea type="text" name="obs_inv" id="obs_inv" class="form-control rounded-0" placeholder="Observaciones"></textarea>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Responsable de Inventario</label>
-                                        <input type="text" name="resp_inv" id="resp_inv" class="form-control"
-                                               placeholder="Responsable a Realizar el Inventario" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Responsable de la Unidad de Bienes e Inventarios</label>
-                                        <input type="text" name="resp_unidad" id="resp_unidad" class="form-control"
-                                               placeholder="Responsable de la Unidad de Bienes e Inventarios" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Fecha</label>
-                                        <input type="date" name="fec_inv" id="fec_inv" class="form-control"
-                                               required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Gestión</label>
-                                        <input type="text" name="gestion" id="gestion" class="form-control" required>
-                                    </div>
-                                    <br>
-                                    <div class="col-md-offset-6 col-md-6">
-                                        <ul class="list-inline pull-right">
-                                            <div class="form-group col-md-6">
-                                                <button type="submit" class="btn btn-primary next-step">Guardar y
-                                                    Continuar
-                                                </button>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="detalle">
+                        <div class="tab-pane active" role="tabpanel" id="detalle">
                             <h3 align="center">Detalle de Activos Fijos</h3>
                             <div>
                                 <table id="table-detalle" class="table table-striped table-bordered">
@@ -282,16 +194,19 @@
                                     </tr>
                                     </thead>
                                     <tbody id="table_content">
+                                    @php $activos = $data[0]; @endphp
+                                    @foreach($activos as $activo) 
                                     <tr>
                                         <td></td>
+                                        <td>{{$activo['codigo']}}</td>
+                                        <td>{{$activo['act_des']}}</td>
+                                        <td>{{$activo['act_can']}}</td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$activo['act_imp_bs']}}</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
