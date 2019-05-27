@@ -56,12 +56,13 @@ class InvenDetalleController extends Controller
         'act_ofc_cod' => $activo->act_ofc_cod,
         'act_val_neto' => $activo->act_imp_bs,
         'exi_act' => ($request->exi_act == "true") ? '1' : '0',
-        'observacion' => $request->observacion
+        'observacion' => $request->observacion,
+        'id_inv' => ($request->id_inv) ? $request->id_inv : Inventario::select('id_inv')->orderBy('id_inv','desc')
       );
       $AddDetalle = new InvenDetalle($dataDetalle);  
       $AddDetalle->save();
       
-      return response()->json($activo);
+      return response()->json($AddDetalle);
   }
   public function show($id_inv_det){
       $det=InvenDetalle::find($id_inv_det);
@@ -105,7 +106,8 @@ class InvenDetalleController extends Controller
         $num_act = sizeof($activos);
         $num_rev = sizeof($revisados);
         $flag = true;
-        $activos_fin = array();
+        $activos_sin_revi = array();
+        $activos_revi = array();
         for($i = 0; $i < $num_act; $i++){
           $flag = true;
           for($j = 0; $j < $num_rev; $j++){
@@ -114,11 +116,13 @@ class InvenDetalleController extends Controller
             }
           }
           if ($flag) {
-            array_push($activos_fin,$activos[$i]);
+            array_push($activos_sin_revi,$activos[$i]);
+          }else{
+            array_push($activos_revi,$activos[$i]);
           }
         }
 
-        $data = [$activos,$activos_fin];
+        $data = [$activos_revi,$activos_sin_revi,$id_inv];
         return view('inventarios.continuar')->with('data', $data);
     }
 }

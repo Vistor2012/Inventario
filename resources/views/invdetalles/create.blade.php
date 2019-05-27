@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@push('styles')
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+@endpush
+
 @section('content')
 <title>Detalle de Inventario</title>
 	<div class="col-md-12 col-lg-12">
@@ -11,7 +16,7 @@
       </div>-->
 
 			<div class="form-row">
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="table_id" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Codigo </th>
@@ -55,3 +60,21 @@
 		</tr>
 	</div>
 @endsection
+@push('scripts')
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+  <script>
+    $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus')
+    });
+
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        }
+      });
+    });
+  </script>
+@endpush

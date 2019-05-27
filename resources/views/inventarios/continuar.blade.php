@@ -4,6 +4,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
+        .table td, th{
+            border: black solid 0.1px !important;
+        }
         .wizard {
             margin: 5px auto;
             background: #fff;
@@ -194,18 +197,65 @@
                                     </tr>
                                     </thead>
                                     <tbody id="table_content">
-                                    @php $activos = $data[0]; @endphp
-                                    @foreach($activos as $activo) 
-                                    <tr>
-                                        <td></td>
-                                        <td>{{$activo['codigo']}}</td>
-                                        <td>{{$activo['act_des']}}</td>
-                                        <td>{{$activo['act_can']}}</td>
-                                        <td></td>
-                                        <td>{{$activo['act_imp_bs']}}</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    @php $activos_revi = $data[0]; @endphp
+                                    @foreach($activos_revi as $activo)
+                                        <tr id="tr{{$loop->iteration}}" style="background-color: lightpink;">
+                                            <td class="text-center">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" disabled id="exi_act{{$loop->iteration}}" class="custom-control-input" checkbox>
+                                                    <label class="custom-control-label" for=""></label>
+                                                </div>
+                                            </td>
+                                            <td>{{$activo['codigo']}}</td>
+                                            <td>{{$activo['act_des']}}</td>
+                                            <td>{{$activo['act_can']}}</td>
+                                            <td class="text-center">
+                                                <select id="act_estado{{$loop->iteration}}" disabled class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Bueno">Bueno</option>
+                                                    <option value="Regular">Regular</option>
+                                                    <option value="deteriorado">Deteriorado</option>
+                                                    <option value="fuera de uso">Fuera de Uso</option>
+                                                </select>
+                                            </td>
+                                            <td>{{$activo['act_imp_bs']}}</td>
+                                            <td class="text-center">
+                                                <div class="form-group col-md-12">
+                                                    <textarea type="text" disabled id="observacion{{$loop->iteration}}" class="form-control rounded-0" rows="1" placeholder="Observacion"></textarea>
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><form onsubmit="return storeInv({{$activo['codigo']}}, {{$loop->iteration}});"><button id="button$" disabled type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Guardar</button></form></td>
+                                        </tr>
+                                    @endforeach
+                                    @php $activos_sin_revi = $data[1]; @endphp
+                                    @foreach($activos_sin_revi as $activo)
+                                        <tr id="tr{{$loop->iteration}}" style="background-color: palegreen;">
+                                            <td class="text-center">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" id="exi_act{{$loop->iteration}}" class="custom-control-input" checkbox>
+                                                    <label class="custom-control-label" for=""></label>
+                                                </div>
+                                            </td>
+                                            <td>{{$activo['codigo']}}</td>
+                                            <td>{{$activo['act_des']}}</td>
+                                            <td>{{$activo['act_can']}}</td>
+                                            <td class="text-center">
+                                                <select id="act_estado{{$loop->iteration}}" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Bueno">Bueno</option>
+                                                    <option value="Regular">Regular</option>
+                                                    <option value="deteriorado">Deteriorado</option>
+                                                    <option value="fuera de uso">Fuera de Uso</option>
+                                                </select>
+                                            </td>
+                                            <td>{{$activo['act_imp_bs']}}</td>
+                                            <td class="text-center">
+                                                <div class="form-group col-md-12">
+                                                    <textarea type="text" id="observacion{{$loop->iteration}}" class="form-control rounded-0" rows="1" placeholder="Observacion"></textarea>
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><form onsubmit="return storeInv('{{$activo['codigo']}}', {{$loop->iteration}});"><button id="button{{$loop->iteration}}" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Guardar</button></form></td>
+                                        </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -235,53 +285,6 @@
 @push('scripts')
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script>
-        let flag = true;
-        //FIRST FORM
-        $('select#inv_ofi_cod').change(function () {
-            $('select#oficina').val($(this).val());
-            oficina = $('select#oficina option:selected').text();
-            $('input#inv_ofi_des').val(oficina);
-            getInvInfo($(this).val());
-        });
-
-        $('select#oficina').change(function () {
-            $('select#inv_ofi_cod').val($(this).val());
-            oficina = $('select#oficina option:selected').text();
-            $('input#inv_ofi_des').val(oficina);
-            getInvInfo($(this).val());
-        });
-
-        function getInvInfo(id_ofi) {
-            $.ajax({
-                url: '{{url('getInvInfo')}}' + '/' + id_ofi,
-                type: 'GET',
-                dataType: 'JSON',
-                success: function (data) {
-                    if (data.length) {
-                        $('textarea#inv_des').html(data[0].inv_des);
-                        $('input#inv_resp_actual').val(data[0].inv_resp_actual);
-                        $('input#inv_resp_nuevo').val(data[0].inv_resp_nuevo);
-                        $('input#obs_inv').val(data[0].obs_inv);
-                        $('input#resp_inv').val(data[0].resp_inv);
-                        $('input#resp_unidad').val(data[0].resp_unidad);
-                        $('input#fec_inv').val(data[0].fec_inv);
-                        $('input#gestion').val(data[0].gestion);
-                    } else {
-                        $('textarea#inv_des').html('');
-                        $('input#inv_resp_actual').val('');
-                        $('input#inv_resp_nuevo').val('');
-                        $('input#obs_inv').val('');
-                        $('input#resp_inv').val('');
-                        $('input#resp_unidad').val('');
-                        $('input#fec_inv').val('');
-                        $('input#gestion').val('');
-                    }
-                },
-                fail: function () {
-                    console.log('error');
-                }
-            });
-        }
 
         //Initialize tooltips
         $('.nav-tabs > li a[title]').tooltip();
@@ -313,57 +316,11 @@
                 var $active = $('.wizard .nav-tabs li.active');
                 prevTab($active);
             });
-        })
-        $('form#inv_form').submit(function (e) {
-            e.preventDefault();
-            let datos = $(this).serializeArray();
-            let html = '';
-            $.ajax({
-                url: '{{route('inventarios.store')}}',
-                method: 'post',
-                dataType: 'JSON',
-                data: datos,
-                success: function (datos) {
-                    data = datos[1];
-                    console.log(data);
-                    for (let i = 0; i < data.length; i++) {
-                        html +=
-                                `<tr id="tr${i}">
-                                    <td class="text-center">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="exi_act${i}" class="custom-control-input" checkbox>
-                                            <label class="custom-control-label" for=""></label>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">${data[i].codigo}</td>
-                                    <td class="text-center">${data[i].act_des}</td>
-                                    <td class="text-center">${data[i].act_can}</td>
-                                    <td class="text-center">
-                                        <select id="act_estado${i}" class="form-control">
-                                            <option value=""></option>
-                                            <option value="Bueno">Bueno</option>
-                                            <option value="Regular">Regular</option>
-                                            <option value="deteriorado">Deteriorado</option>
-                                            <option value="fuera de uso">Fuera de Uso</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-center">${typeof(data[i].act_imp_bs) != 'undefined' ? data[i].act_imp_bs: '1.00'}</td>
-                                    <td class="text-center">
-                                        <div class="form-group col-md-12">
-                                            <textarea type="text" id="observacion${i}" class="form-control rounded-0" rows="1" placeholder="Observacion"></textarea>
-                                        </div>
-                                    </td>
-                                    <td class="text-center"><form onsubmit="return storeInv('${data[i].codigo}', ${i});"><button id="button${i}" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Guardar</button></form></td>
-                                </tr>`;
-                    }
-                    $('#table_content').html(html);
-                    $('#table-detalle').DataTable({
-                        language: {
-                            url: 'http://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
-                        }
-                    });
+            $('#table-detalle').DataTable({
+                language: {
+                    url: 'http://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
                 }
-            })
+            });
         });
 
         function storeInv(codigo, j) {
@@ -372,6 +329,7 @@
                 {name: 'exi_act', value: $('input#exi_act'+j).prop('checked')},
                 {name: 'act_estado', value: $('select#act_estado'+j).val()},
                 {name: 'observacion', value: $('textarea#observacion'+j).val()},
+                {name: 'id_inv', value: {{$data[2]}} }
             ];
             let button = $('button#button'+j);
             /*console.log(data);*/
@@ -382,7 +340,8 @@
                 },
                 data: data,
                 method: 'POST',
-                success:function(){
+                success:function(msg){
+                    console.log(msg);
                     $(button).removeClass('btn-success');
                     $(button).html('<span class="glyphicon glyphicon-check"></span> Guardado')
                 },
@@ -391,8 +350,8 @@
                     $(button).addClass('btn-danger')
                     $(button).html('<span class="glyphicon glyphicon-remove"></span> Error')
                 }
-            })
-            $('tr#tr'+j).fadeOut("slow");
+            });
+            $('tr#tr'+j).css('background-color','lightpink');
             return false;
         }
     </script>
