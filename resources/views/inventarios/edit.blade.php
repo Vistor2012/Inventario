@@ -167,23 +167,6 @@
                                     </span>
                                 </a>
                             </li>
-
-                            <li role="presentation" class="disabled">
-                                <a href="#detalle" data-toggle="tab" aria-controls="detalle" role="tab" title="detalle">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-pencil"></i>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li role="presentation" class="disabled">
-                                <a href="#completo" data-toggle="tab" aria-controls="completo" role="tab"
-                                   title="Completo">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    </span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -257,78 +240,113 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="tab-pane" role="tabpanel" id="detalle">
-                            <h3 align="center">Detalle de Activos Fijos</h3>
-                            <div>
-                                <table id="table-detalle" class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th style="width: 1%;">Verificar</th>
-                                        <th style="width: 5%;">Codigo</th>
-                                        <th style="width: 30%;">Descripcion</th>
-                                        <th style="width: 5%;">Cantidad</th>
-                                        <th style="width: 9%;">Estado</th>
-                                        <th style="width: 10%;">Valor Neto</th>
-                                        <th style="width: 20%;">Observacion</th>
-                                        <th style="width: 20%;">Opciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="table_content">
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br>
-                            <ul class="list-inline pull-right">
-                                <li>
-                                    <button type="button" class="btn btn-default prev-step">Anterior</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn btn-primary next-step">Guardar Y Continuar</button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="completo">
-                            <h3>Completado</h3>
-                            <p>Se ha realizado satisfactoriamente el inventario.</p>
-                        </div>
-                        <div class="clearfix"></div>
                     </div>
                 </div>
             </section>
         </div>
     </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">Información del Inventario</h5>
+      </div>
+      <div class="modal-body">
+        <form method='POST' id='inv_form'>
+          <div class="form-group col-md-6">
+              <label>Codigo de la Unidad</label>
+              <select class="form-control select2 requerido" name="inv_ofi_cod"
+                      id="inv_ofi_cod" value="{{old('inv_ofi_cod')}}">
+                  <option value="">Seleccione una Opción</option>
+              </select>
+          </div>
+          <div class="form-group col-md-6">
+              <label>Nombre de la Unidad</label>
+              <select class="form-control select2 requerido" name="oficina" id="oficina"
+                      value="{{old('oficina')}}">
+                  <option value="">Seleccione una Opción</option>
+              </select>
+          </div>
+          <input id="prodId" name="prodId" type="hidden" value="xm234jq">
+          <div class="form-group col-md-12">
+              <label>Descripcion del Inventario</label>
+              <textarea type="text" name='inv_des' id='inv_des' class='form-control rounded-0' placeholder="Descripcion" required></textarea>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="">Responsable Actual de la Unidad</label>
+              <input type="text" name="inv_resp_actual" id="inv_resp_actual"
+                     class="form-control" placeholder="Responsable Actual de la Unidad"
+                     required>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="">Nuevo Responsable de la Unidad</label>
+              <input type="text" name="inv_resp_nuevo" id="inv_resp_nuevo"
+                     class="form-control" placeholder="Nuevo Responsable de la Unidad"
+                     required>
+          </div>
+          <div class="form-group col-md-12">
+              <label for="">Observaciones</label>
+              <textarea type="text" name="obs_inv" id="obs_inv" class="form-control rounded-0" placeholder="Observaciones"></textarea>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="">Responsable de Inventario</label>
+              <input type="text" name="resp_inv" id="resp_inv" class="form-control"
+                     placeholder="Responsable a Realizar el Inventario" required>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="">Responsable de la Unidad de Bienes e Inventarios</label>
+              <input type="text" name="resp_unidad" id="resp_unidad" class="form-control"
+                     placeholder="Responsable de la Unidad de Bienes e Inventarios" required>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="">Fecha</label>
+              <input type="date" name="fec_inv" id="fec_inv" class="form-control"
+                     required>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="">Gestión</label>
+              <input type="text" name="gestion" id="gestion" class="form-control" required>
+          </div>
+          <br>
+          <div class="col-md-offset-6 col-md-6">
+              <ul class="list-inline pull-right">
+                  <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-primary next-step">Guardar y
+                          Continuar
+                      </button>
+                  </div>
+              </ul>
+          </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script>
-        let flag = true;
-        //FIRST FORM
-        $('select#inv_ofi_cod').change(function () {
-            $('select#oficina').val($(this).val());
-            oficina = $('select#oficina option:selected').text();
-            $('input#inv_ofi_des').val(oficina);
-            getInvInfo($(this).val());
-        });
+  <script type="text/javascript">
+    $(document).ready( function () {
+      $('#table_id').DataTable({
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        }
+      });
+      getInvInfo(ofi_cod);
+    });
+    $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus')
+    });
 
-        $('select#oficina').change(function () {
-            $('select#inv_ofi_cod').val($(this).val());
-            oficina = $('select#oficina option:selected').text();
-            $('input#inv_ofi_des').val(oficina);
-            getInvInfo($(this).val());
-        });
-
-        function getInvInfo(id_ofi) {
+    function getInvInfo(id_ofi) {
             $.ajax({
                 url: '{{url('getInvInfo')}}' + '/' + id_ofi,
                 type: 'GET',
@@ -359,117 +377,5 @@
                 }
             });
         }
-
-        //Initialize tooltips
-        $('.nav-tabs > li a[title]').tooltip();
-
-        //Wizard
-        function nextTab(elem) {
-            $(elem).next().find('a[data-toggle="tab"]').click();
-        }
-
-        function prevTab(elem) {
-            $(elem).prev().find('a[data-toggle="tab"]').click();
-        }
-
-        //DATATABLES
-        $(document).ready(function () {
-
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-                var $target = $(e.target);
-                if ($target.parent().hasClass('disabled')) {
-                    return false;
-                }
-            });
-            $(".next-step").click(function (e) {
-                var $active = $('.wizard .nav-tabs li.active');
-                $active.next().removeClass('disabled');
-                nextTab($active);
-            });
-            $(".prev-step").click(function (e) {
-                var $active = $('.wizard .nav-tabs li.active');
-                prevTab($active);
-            });
-        })
-        $('form#inv_form').submit(function (e) {
-            e.preventDefault();
-            let datos = $(this).serializeArray();
-            let html = '';
-            $.ajax({
-                url: '{{route('inventarios.store')}}',
-                method: 'post',
-                dataType: 'JSON',
-                data: datos,
-                success: function (datos) {
-                    data = datos[1];
-                    console.log(data);
-                    for (let i = 0; i < data.length; i++) {
-                        html +=
-                                `<tr id="tr${i}">
-                                    <td class="text-center">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="exi_act${i}" class="custom-control-input" checkbox>
-                                            <label class="custom-control-label" for=""></label>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">${data[i].codigo}</td>
-                                    <td class="text-center">${data[i].act_des}</td>
-                                    <td class="text-center">${data[i].act_can}</td>
-                                    <td class="text-center">
-                                        <select id="act_estado${i}" class="form-control">
-                                            <option value=""></option>
-                                            <option value="Bueno">Bueno</option>
-                                            <option value="Malo">Regular</option>
-                                            <option value="Regular">Malo</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-center">${typeof(data[i].act_imp_bs) != 'undefined' ? data[i].act_imp_bs: '1.00'}</td>
-                                    <td class="text-center">
-                                        <div class="form-group col-md-12">
-                                            <textarea type="text" id="observacion${i}" class="form-control rounded-0" rows="1" placeholder="Observacion"></textarea>
-                                        </div>
-                                    </td>
-                                    <td class="text-center"><form onsubmit="return storeInv('${data[i].codigo}', ${i});"><button id="button${i}" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Guardar</button></form></td>
-                                </tr>`;
-                    }
-                    $('#table_content').html(html);
-                    $('#table-detalle').DataTable({
-                        language: {
-                            url: 'http://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
-                        }
-                    });
-                }
-            })
-        });
-
-        function storeInv(codigo, j) {
-            data = [
-                {name: 'codigo', value: codigo},
-                {name: 'exi_act', value: $('input#exi_act'+j).prop('checked')},
-                {name: 'act_estado', value: $('select#act_estado'+j).val()},
-                {name: 'observacion', value: $('textarea#observacion'+j).val()},
-            ];
-            let button = $('button#button'+j);
-            /*console.log(data);*/
-            $.ajax({
-                url: '{{url('invdetalles')}}',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: data,
-                method: 'POST',
-                success:function(){
-                    $(button).removeClass('btn-success');
-                    $(button).html('<span class="glyphicon glyphicon-check"></span> Guardado')
-                },
-                fail:function () {
-                    $(button).removeClass('btn-success');
-                    $(button).addClass('btn-danger')
-                    $(button).html('<span class="glyphicon glyphicon-remove"></span> Error')
-                }
-            })
-            $('tr#tr'+j).fadeOut("slow");
-            return false;
-        }
-    </script>
+  </script>
 @endpush

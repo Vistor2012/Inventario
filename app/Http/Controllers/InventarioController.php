@@ -24,13 +24,6 @@ class InventarioController extends Controller
     $rev=ActivoRev::orderby('act_ofc_cod','desc')->get();
     return view('inventarios.create')->with('inventario', $inventario)->with('oficina',$oficina)->with('detalle',$detalle)->with('activo',$activo)->with('rev',$rev);
   }
-  public function search(Request $request){
-    $search = $request->get('search');
-    //($search);
-    $inventario = Inventario::where('id_inv', 'like', '%'.$search.'%')->paginate(5);
-    //dd($inventario);
-    return view('inventarios.index',['inventario' => $inventario]);
-  }
   public function store(Request $request)
   { 
       $inv=new Inventario($request->all());
@@ -71,8 +64,8 @@ class InventarioController extends Controller
       return response()->json([$inv,$activos]);
   }
   public function show($id_inv){
-      $inv=Inventario::find($id_inv);
-      return view('inventarios.show')->with('inv', $inv);
+      $inventario=Inventario::find($id_inv);
+      return view('inventarios.show')->with('inventario', $inventario);
   }
   public function edit($id_inv){
       $inventario=Inventario::find($id_inv);
@@ -91,7 +84,6 @@ class InventarioController extends Controller
         flash('a sido borrado de forma exitosa', 'danger');
         return redirect()->route('inventarios.index');
     }
-
     public function getInvInfo($id_ofi){
       $inv = Inventario::where('inv_ofi_cod',$id_ofi)->get();
       return response()->json($inv);

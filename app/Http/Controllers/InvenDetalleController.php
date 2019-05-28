@@ -23,13 +23,6 @@ class InvenDetalleController extends Controller
     //dd($inventario);
     return view('invdetalles.create')->with('detalle', $detalle)->with('activo',$activo)->with('rev',$rev);
   }
-  public function search(Request $request){
-    $search = $request->get('search');
-    //($search);
-    $detalle = InvenDetalle::where('id_inv_det', 'like', '%'.$search.'%')->paginate(5);
-    //dd($inventario);
-    return view('invdetalles.index',['detalle' => $detalle]);
-  }
   public function store(Request $request)
   {   
       //Primero recuperamos el codigo del activo a guardar, ya que es unico nos ayudara a buscar en las tablas

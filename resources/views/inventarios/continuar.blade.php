@@ -224,7 +224,7 @@
                                                     <textarea type="text" disabled id="observacion{{$loop->iteration}}" class="form-control rounded-0" rows="1" placeholder="Observacion"></textarea>
                                                 </div>
                                             </td>
-                                            <td class="text-center"><form onsubmit="return storeInv({{$activo['codigo']}}, {{$loop->iteration}});"><button id="button$" disabled type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Guardar</button></form></td>
+                                            <td class="text-center"><form onsubmit="return storeInv({{$activo['codigo']}}, {{$loop->iteration}});"><button id="button$" disabled type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Guardado</button></form></td>
                                         </tr>
                                     @endforeach
                                     @php $activos_sin_revi = $data[1]; @endphp

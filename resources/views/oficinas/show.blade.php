@@ -10,11 +10,11 @@
 	 	<th><center><h1 class="box-title">ACTIVOS DE {{$ofi->ofc_des}}</h1></center></th>
 		<tr>
       <div class="card body">
-        
         <a href="{{ route('pdf', ['ofc_cod' => $ofi->ofc_cod])}}">
           <button type="button" class="btn btn-primary">Imprimir</button>
         </a>
       </div>
+      <br>
 			<div class="form-row">
         <table id="table_id" class="table table-bordered table-striped">
           <thead>
