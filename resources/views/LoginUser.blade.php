@@ -1,60 +1,56 @@
 @extends ('layouts.app')
-@section('content')
-    <div class="login-area">
-        <div class="bg-image">
-            <div class="login-signup">
-                <div class="container">
-                    <div class="login-header">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="login-logo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/en/e/e0/Escudouatf.png" height="150px" width="80px">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="login-details">
-                                    <ul class="nav nav-tabs navbar-right">
-                                        <li><a data-toggle="tab" id="alog" href="#login">Ingresar</a></li>
-                                    </ul>
-                                </di2v>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="tab-content">
-                        <div id="login" class="tab-pane">
-                            <div class="login-inner">
-                                <div class="title">
-                                    <h1>Universidad Autonoma Tomas Frias</h1>
-                                </div>
-                                <div class="login-form">
-                                    <form method="post" action="{{url('/verificar')}}">
-                                        {{csrf_field()}}
-                                        <div class="form-details">
-                                            <label class="usuario">
-                                                <input type="text" name="usuario" placeholder="Usuario" id="usuario">
-                                            </label>
-                                            <label class="clave">
-                                                <input type="password" name="clave" placeholder="Contraseña" id="clave">
-                                            </label>
-                                            <label class="gestion">
-                                                
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-lg">Aceptar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+@push('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+    <style>
+        body{
+            background-color:red;
+        }
+        .container-login100{
+            background-repeat: none;
+            background-size: cover;
+            background-image: url({{asset('imagenes/bg.jpg')}});
+        }
+    </style>
+@endpush
+
+@section('content')
+    <div class="limiter" style="background-color:red;">
+		<div class="container-login100">
+			<div class="wrap-login100 p-t-10 p-b-20" style="border: solid 1px grey; padding:45px; background-color:#f2f2f2; border-radius: 25px;">
+				<form class="login100-form validate-form" method="post" action="{{url('/verificar')}}">
+					<span class="login100-form-title p-b-20" style="font-size:28px;">
+                        Universidad Autónoma Tomás Frias
+					</span>
+					<span class="login100-form-avatar">
+						<img src="https://upload.wikimedia.org/wikipedia/en/e/e0/Escudouatf.png" style="height:120px;" alt="AVATAR">
+                    </span>
+                    <span class="login100-form-title p-b-10" style="font-size:28px;">
+                        <br>
+                        Sistema de Inventarios
+					</span>
+					<div class="wrap-input100 validate-input m-t-35 m-b-35" data-validate = "Enter username">
+						<input class="input100" type="text" name="usuario">
+						<span class="focus-input100" data-placeholder="Usuario"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+						<input class="input100" type="password" name="clave">
+						<span class="focus-input100" data-placeholder="Contraseña"></span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn"><i class="glyphicon glyphicon-log-in"></i>- Ingresar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
     <script>
     $(document).ready(function(){
         $('a#alog').click();
-        console.log('entro');
     });
     </script>
 @endsection
