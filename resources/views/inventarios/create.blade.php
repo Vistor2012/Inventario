@@ -149,6 +149,11 @@
         }
     </style>
 @endpush
+
+@section('navbar')
+    @include('navbar')
+@endsection
+
 <!------ Include the above in your HEAD tag ---------->
 @section('content')
     <div style="width: 100%; padding-left: 100px; padding-right: 100px;">
@@ -236,7 +241,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="">Responsable de Inventario</label>
                                         <input type="text" name="resp_inv" id="resp_inv" class="form-control"
-                                               placeholder="Responsable a Realizar el Inventario" required>
+                                               placeholder="Responsable a Realizar el Inventario" required readonly value="{{Auth::user()->nombres}} {{Auth::user()->paterno}} {{Auth::user()->materno}}">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="">Responsable de la Unidad de Bienes e Inventarios</label>

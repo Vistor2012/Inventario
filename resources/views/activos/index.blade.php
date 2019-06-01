@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('navbar')
+  @include('navbar')
+@endsection
+
 @section('content')
 <div class="box">
   <div class="box-header with-border">

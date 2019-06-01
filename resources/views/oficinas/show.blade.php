@@ -4,6 +4,10 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 @endpush
 
+@section('navbar')
+  @include('navbar')
+@endsection
+
 @section('content')
 <title>Activos</title>
 	<div class="col-md-12 col-lg-12">

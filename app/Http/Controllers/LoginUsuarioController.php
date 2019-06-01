@@ -24,7 +24,7 @@ class LoginUsuarioController extends Controller
         {
             //dd('Entro');
             Auth::login($user);
-            return view('home');
+            return redirect('home');
         }
         else{
             //return view('home');
@@ -32,5 +32,10 @@ class LoginUsuarioController extends Controller
                 ->withErrors(['usuario'=>trans('auth.failed')])
                 ->withInput(request(['usuario']));
         }
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/');
     }
 }

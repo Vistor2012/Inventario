@@ -151,6 +151,11 @@
     </style>
 @endpush
 <!------ Include the above in your HEAD tag ---------->
+
+@section('navbar')
+    @include('navbar')
+@endsection
+
 @section('content')
     <div style="width: 100%; padding-left: 100px; padding-right: 100px;">
         <div class="row">

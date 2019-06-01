@@ -4,6 +4,10 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 @endpush
 
+@section('navbar')
+    @include('navbar')
+@endsection
+
 @section('content')
 <div class="container-fluid">
   <div class="row">

@@ -19,10 +19,9 @@
     @stack('styles')
 </head>
 <body>
+    @yield('navbar')
     <div id="app">
-    
         @yield('content')
-
     </div>
     <!-- Scripts -->
     @stack('scripts')

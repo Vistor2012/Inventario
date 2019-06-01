@@ -69,7 +69,7 @@ return [
 
         'auth_db' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '192.168.26.54'),
+            'host' => env('DB_HOST', ''),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'daf_test'),
             'username' => env('DB_USERNAME', 'postgres'),

@@ -20,6 +20,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-10 p-b-20" style="border: solid 1px grey; padding:45px; background-color:#f2f2f2; border-radius: 25px;">
 				<form class="login100-form validate-form" method="post" action="{{url('/verificar')}}">
+					<input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
 					<span class="login100-form-title p-b-20" style="font-size:28px;">
                         Universidad Autónoma Tomás Frias
 					</span>
@@ -47,10 +48,8 @@
 			</div>
 		</div>
 	</div>
-
-    <script>
-    $(document).ready(function(){
-        $('a#alog').click();
-    });
-    </script>
 @endsection
+
+@push('scripts')
+	<script src="{{asset('/js/main.js')}}"></script>
+@endpush

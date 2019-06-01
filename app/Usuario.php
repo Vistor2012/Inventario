@@ -12,7 +12,8 @@ class Usuario extends Model implements AuthenticatableContract
     protected $table ="personas";
     protected $connection = 'auth_db';
     protected $primaryKey = 'id_persona';
-	
+    public $remember_token=false;
+
 	public function getAuthPassword()
 	{
 	    return $this->clave;
