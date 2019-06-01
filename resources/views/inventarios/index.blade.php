@@ -57,7 +57,7 @@
                   <a href="{{ route('inventarios.show', ['id_inv' => $inv->id_inv, 'inv_ofi_cod' => $inv->inv_ofi_cod])}}" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-eye-open"></i> Ver Detalle</a>
                   <a href="{{ route('pdfInv', ['inv_ofi_cod' => $inv->inv_ofi_cod])}}" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-download"></i> Descargar</a>
                   <br>
-                  <a data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-info"></i> Info</a>
+                  <a data-toggle="modal" onclick="getInvInfo({{$inv->id_inv}})" data-target="#exampleModal" type="button" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
                 @else
                   <a href="{{ route('continuar', ['id_inv' => $inv->id_inv, 'inv_ofi_cod' =>$inv->inv_ofi_cod])}}" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-edit"></i> Continuar</a>
                   <a href="{{ route('inventarios.destroy', $inv->id_inv) }}" onclick="return  confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
@@ -162,7 +162,6 @@
           url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
         }
       });
-      getInvInfo(72);
     });
     $('#myModal').on('shown.bs.modal', function () {
       $('#myInput').trigger('focus')
@@ -175,6 +174,8 @@
                 dataType: 'JSON',
                 success: function (data) {
                     if (data.length) {
+                        $('input#inv_ofi_cod').html(data[0].inv_ofi_cod);
+                        $('input#inv_ofi_des').html(data[0].inv_ofi_des);
                         $('textarea#inv_des').html(data[0].inv_des);
                         $('input#inv_resp_actual').val(data[0].inv_resp_actual);
                         $('input#inv_resp_nuevo').val(data[0].inv_resp_nuevo);
@@ -184,6 +185,8 @@
                         $('input#fec_inv').val(data[0].fec_inv);
                         $('input#gestion').val(data[0].gestion);
                     } else {
+                        $('input#inv_ofi_cod').html('');
+                        $('input#inv_ofi_des').html('');
                         $('textarea#inv_des').html('');
                         $('input#inv_resp_actual').val('');
                         $('input#inv_resp_nuevo').val('');
