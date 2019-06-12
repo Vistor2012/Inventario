@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src="https://upload.wikimedia.org/wikipedia/en/e/e0/Escudouatf.png" width="35px" height="35px" style="margin-top: -7px;"></a>
+            <a class="navbar-brand" href="{{ route('home') }}"><img src="https://upload.wikimedia.org/wikipedia/en/e/e0/Escudouatf.png" width="35px" height="35px" style="margin-top: -7px;"></a>
             <a class="navbar-brand"> UATF - Sistema de Inventarios</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">

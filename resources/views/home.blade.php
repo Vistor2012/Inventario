@@ -8,31 +8,9 @@
 <div>
     <div class="container">
         <div class="jumbotron">
-            <h1>Navbar example</h1>
-            <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-            <p>
-                <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs »</a>
-            </p>
+            <h2>Misión de la División de Bienes e Inventarios</h2>
+            <p>Fortalecer el desarrollo de una cultura y capacitación para la correcta aplicación de los bienes y servicios desde la solicitud hasta la disposición final de los mismos, para dee esta manera salvaguardar el patrimonio universitario.</p>
         </div>
-        <!--<div class="row" style="padding-top: 20%;">
-            <div class="col-md-offset-2 col-md-8">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <a href="{{ route('oficinas.index') }}">
-                            <button type="button" class="btn btn-primary btn-block btn-lg"><i class="glyphicon glyphicon-book"></i> Oficinas e Unidades</button>
-                         </a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <a href="{{ route('inventarios.index') }}">
-                            <button type="button" class="btn btn-primary btn-block btn-lg"><i class="glyphicon glyphicon-edit"></i> Realizar Inventario</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>-->
     </div>
 </div> 
 @endsection

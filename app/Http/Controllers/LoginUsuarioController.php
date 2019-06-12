@@ -36,6 +36,8 @@ class LoginUsuarioController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('/');
+        $request->session()->flush();
+        $request->session()->regenerate();
+        return redirect(\URL::previous());
     }
 }

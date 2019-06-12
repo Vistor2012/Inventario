@@ -306,13 +306,16 @@
                                     <button type="button" class="btn btn-default prev-step">Anterior</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="btn btn-primary next-step">Guardar Y Continuar</button>
+                                    <button type="button" class="btn btn-primary next-step">Continuar</button>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-pane" role="tabpanel" id="completo">
                             <h3>Completado</h3>
                             <p>Se ha realizado satisfactoriamente el inventario.</p>
+                            <form id="cerrar_inv">
+                                <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-save"></i> Cerrar Inventario</button>
+                            </form>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -326,6 +329,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script>
         let flag = true;
+        let inv_id;
         //FIRST FORM
         $('select#inv_ofi_cod').change(function () {
             $('select#oficina').val($(this).val());
@@ -415,7 +419,7 @@
                 data: datos,
                 success: function (datos) {
                     data = datos[1];
-                    console.log(data);
+                    inv_id = datos[0];
                     for (let i = 0; i < data.length; i++) {
                         html +=
                                 `<tr id="tr${i}">
@@ -462,6 +466,7 @@
                 {name: 'exi_act', value: $('input#exi_act'+j).prop('checked')},
                 {name: 'act_estado', value: $('select#act_estado'+j).val()},
                 {name: 'observacion', value: $('textarea#observacion'+j).val()},
+                {name: 'id_inv', value: inv_id}
             ];
             let button = $('button#button'+j);
             /*console.log(data);*/
@@ -482,8 +487,26 @@
                     $(button).html('<span class="glyphicon glyphicon-remove"></span> Error')
                 }
             })
-            $('tr#tr'+j).fadeOut("slow");
+            $('tr#tr'+j).css('background-color','lightpink');
             return false;
         }
+        $('form#cerrar_inv').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '{{url('cerrar_inv')}}',
+                dataType:'JSON',
+                data: [{name: 'id_inv', value: inv_id}],
+                success: function(data){
+                    console.log('guardado')
+                    window.location.href = "/";
+                },
+                fail: function(){
+                    console.log('error');
+                }
+            })
+        })
     </script>
 @endpush
+
+
+

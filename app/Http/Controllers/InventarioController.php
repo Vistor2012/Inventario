@@ -85,7 +85,7 @@ class InventarioController extends Controller
         return redirect()->route('inventarios.index');
     }
     public function getInvInfo($id_ofi){
-      $inv = Inventario::where('inv_ofi_cod',$id_ofi)->get();
+      $inv = Inventario::where('id_inv',$id_ofi)->get();
       return response()->json($inv);
     }
     public function pdfInv($inv_ofi_cod){
@@ -127,4 +127,11 @@ class InventarioController extends Controller
           ->header('Content-Disposition', 'inline; filename="cliente.pdf"');
       return view('inventarios.index');
   }
+
+  /*public function cerrar_inv(Request $request){
+    $id_inv = $request->input('id_inv');
+    Inventario::where('id_inv', $id_inv)
+          ->update(['status' => 0]);
+    return response()->json(['status' => 0]);
+  }*/
 }

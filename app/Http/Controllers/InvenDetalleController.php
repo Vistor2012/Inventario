@@ -58,8 +58,8 @@ class InvenDetalleController extends Controller
       return response()->json($AddDetalle);
   }
   public function show($id_inv_det){
-      $det=InvenDetalle::find($id_inv_det);
-      return view('invdetalles.show')->with('det', $det);
+      $det=InvenDetalle::where('id_inv',$id_inv_det)->get();
+      return view('inventarios.show')->with('detalle', $det);
   }
   public function edit($id_inv_det){
       $detalle=InvenDetalle::find($id_inv_det);
