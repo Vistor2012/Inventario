@@ -12,8 +12,7 @@ class InventarioController extends Controller
 {
   public function index(Request $request)
   {
-    $inventario = Inventario::orderby('fec_inv','DESC')->paginate(10);
-    //dd($inventario);
+    $inventario = Inventario::orderby('fec_inv','DESC')->get();
     return view('inventarios.index')->with('inventario', $inventario);
   }
   public function create(){
@@ -128,10 +127,10 @@ class InventarioController extends Controller
       return view('inventarios.index');
   }
 
-  /*public function cerrar_inv(Request $request){
+  public function cerrar_inv(Request $request){
     $id_inv = $request->input('id_inv');
     Inventario::where('id_inv', $id_inv)
-          ->update(['status' => 0]);
-    return response()->json(['status' => 0]);
-  }*/
+          ->update(['estado' => 1]);
+    return response()->json(['estado' => 1]);
+  }
 }

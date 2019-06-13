@@ -335,14 +335,12 @@
             $('select#oficina').val($(this).val());
             oficina = $('select#oficina option:selected').text();
             $('input#inv_ofi_des').val(oficina);
-            getInvInfo($(this).val());
         });
 
         $('select#oficina').change(function () {
             $('select#inv_ofi_cod').val($(this).val());
             oficina = $('select#oficina option:selected').text();
             $('input#inv_ofi_des').val(oficina);
-            getInvInfo($(this).val());
         });
 
         function getInvInfo(id_ofi) {
@@ -419,7 +417,7 @@
                 data: datos,
                 success: function (datos) {
                     data = datos[1];
-                    inv_id = datos[0];
+                    inv_id = datos[0]['id_inv'];
                     for (let i = 0; i < data.length; i++) {
                         html +=
                                 `<tr id="tr${i}">
@@ -479,11 +477,12 @@
                 method: 'POST',
                 success:function(){
                     $(button).removeClass('btn-success');
+                    $(button).attr("disabled", true);
                     $(button).html('<span class="glyphicon glyphicon-check"></span> Guardado')
                 },
                 fail:function () {
                     $(button).removeClass('btn-success');
-                    $(button).addClass('btn-danger')
+                    $(button).addClass('btn-danger');
                     $(button).html('<span class="glyphicon glyphicon-remove"></span> Error')
                 }
             })
@@ -495,9 +494,13 @@
             $.ajax({
                 url: '{{url('cerrar_inv')}}',
                 dataType:'JSON',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 data: [{name: 'id_inv', value: inv_id}],
                 success: function(data){
-                    console.log('guardado')
+                    console.log('guardado');
                     window.location.href = "/";
                 },
                 fail: function(){

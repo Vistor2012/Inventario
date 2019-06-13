@@ -66,21 +66,17 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="exampleModalLabel">Importar Archivos Excel</h5>
+        <h5 class="modal-title text-center" id="exampleModalLabel">Importar Archivos Excel</h5>
       </div>
       <div class="modal-body">
         <div class="input-group">
-            <form action="{{ route('import')}}" method="POST" enctype="multipart/form-data">
-                <span class="input-group-prepend">
-                    {{ csrf_field() }}
-                    <input type="file" name="import_file" class="from-control" />
-                    <input type="submit" name="Import"class="btn btn-primary" />
-                </span>
-            </form>
+          <form action="{{ route('import')}}" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="import_file" class="from-control" />
+            <br>
+            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-upload"></i> Importar</button>
+          </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

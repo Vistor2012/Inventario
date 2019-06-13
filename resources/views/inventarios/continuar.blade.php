@@ -268,16 +268,16 @@
                             <br>
                             <ul class="list-inline pull-right">
                                 <li>
-                                    <button type="button" class="btn btn-default prev-step">Anterior</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn btn-primary next-step">Guardar Y Continuar</button>
+                                    <button type="button" class="btn btn-primary next-step">Continuar</button>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-pane" role="tabpanel" id="completo">
                             <h3>Completado</h3>
                             <p>Se ha realizado satisfactoriamente el inventario.</p>
+                            <form id="cerrar_inv">
+                                <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-save"></i> Cerrar Inventario</button>
+                            </form>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -359,5 +359,25 @@
             $('tr#tr'+j).css('background-color','lightpink');
             return false;
         }
+
+        $('form#cerrar_inv').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '{{url('cerrar_inv')}}',
+                dataType:'JSON',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: [{name: 'id_inv', value: {{$data[2]}}}],
+                success: function(data){
+                    console.log('guardado');
+                    window.location.href = "/";
+                },
+                fail: function(){
+                    console.log('error');
+                }
+            })
+        })
     </script>
 @endpush

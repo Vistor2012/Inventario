@@ -37,7 +37,7 @@ Route::get('inventarios/{id_inv}/destroy',[
     'uses' => 'InventarioController@destroy',
     'as' => 'inventarios.destroy'
 ])->middleware('auth');
-Route::post('inventarios','InventarioController@cerrar_inv')->name('cerrar_inv')->middleware('cerrar_inv');
+Route::post('/cerrar_inv','InventarioController@cerrar_inv')->name('cerrar_inv')->middleware('auth');
 
 Route::resource('invdetalles','InvenDetalleController')->middleware('auth');
 Route::get('invdetalles/{id_inv_det}/destroy',[
