@@ -403,7 +403,7 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="310" y="160" width="240" height="20" uuid="58528ade-06cd-42f6-b5f5-bfe06bed6caa"/>
 				<textElement textAlignment="Center" verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA["V°B°             MSc. Lic. " + $F{COLUMN_15}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["V°B°             MSc. Lic. " + $F{COLUMN_17}]]></textFieldExpression>
 			</textField>
 		</band>
 	</lastPageFooter>

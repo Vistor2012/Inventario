@@ -25,7 +25,6 @@
             <tr>
               <th>Codigo </th>
               <th>Cantidad</th>
-              <th>Pieza</th>
               <th>Descripcion Detallada</th>
               <th>Fecha de Adquisicion</th>
               <th>Valor Neto</th>
@@ -41,7 +40,6 @@
               <td>{{ $act->codigo }}</td>
               <td>{{ $act->act_can }}</td>
               <td>{{ $act->act_des }}</td>
-              <td>{{ $act->act_des_det }}</td>
               <td>{{ $act->act_fec_adq }}</td>
               <td>{{ $act->act_imp_bs }}</td>
               <td>{{ $act->act_estado }}</td>
@@ -58,7 +56,6 @@
               <td>{{ $acti->codigo }}</td>
               <td>{{ $acti->act_can }}</td>
               <td>{{ $acti->act_des }}</td>
-              <td>{{ $acti->act_des_det }}</td>
               <td>{{ $acti->act_fec_adq }}</td>
               <td>{{ $act->act_imp_bs }}</td>
               <td>{{ $acti->act_estado }}</td>

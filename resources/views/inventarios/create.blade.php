@@ -313,6 +313,7 @@
                         <div class="tab-pane" role="tabpanel" id="completo">
                             <h3>Completado</h3>
                             <p>Se ha realizado satisfactoriamente el inventario.</p>
+                            <p>Desea usted a proceder cerrar el inventario?</p>
                             <form id="cerrar_inv">
                                 <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-save"></i> Cerrar Inventario</button>
                             </form>
@@ -501,7 +502,7 @@
                 data: [{name: 'id_inv', value: inv_id}],
                 success: function(data){
                     console.log('guardado');
-                    window.location.href = "/";
+                    window.location.href = "/inventarios";
                 },
                 fail: function(){
                     console.log('error');

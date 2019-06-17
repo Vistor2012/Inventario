@@ -372,7 +372,7 @@
                 data: [{name: 'id_inv', value: {{$data[2]}}}],
                 success: function(data){
                     console.log('guardado');
-                    window.location.href = "/";
+                    window.location.href = "/inventarios";
                 },
                 fail: function(){
                     console.log('error');

@@ -137,7 +137,7 @@ class OficinaController extends Controller
             $xls_date1 = 25569 + ($unix_date1 / 86400);
             $unix_date1 = ($xls_date1 - 25569) * 86400;
 
-            $xls_date2 = (int) $row[11];
+            $xls_date2 = (int) $row[10];
             $unix_date2 = ($xls_date2 - 25569) * 86400;
             $xls_date2 = 25569 + ($unix_date2 / 86400);
             $unix_date2 = ($xls_date2 - 25569) * 86400;
@@ -153,9 +153,9 @@ class OficinaController extends Controller
               'act_estado'    => $row[7],
               'act_ges'       => $row[8],
               'act_ofc_cod'   => $row[9],
-              'estado'        => $row[10],
               'fec_cre'       => date('Y-m-d', (int) $unix_date2),
-              'act_imp_bs'    => $row[12],
+              'act_imp_bs'    => $row[11],
+              'uni_med'        => $row[12],
             ]);
             $activo->save();
             \DB::commit();

@@ -19,13 +19,29 @@
 		"WHERE activos.act_ofc_cod = "+$P{test}+" "]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT DISTINCT
-		oficina.ofc_des
-		FROM act.activos as activos
-		JOIN act.oficina as oficina
-		ON activos.act_ofc_cod = oficina.ofc_cod
-		WHERE activos.act_ofc_cod = $P{test}]]>
+		<![CDATA[$P!{SQL}]]>
 	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo"/>
+	</field>
+	<field name="act_can" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="act_can"/>
+	</field>
+	<field name="act_des" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_des"/>
+	</field>
+	<field name="act_des_det" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_des_det"/>
+	</field>
+	<field name="act_imp_bs" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="act_imp_bs"/>
+	</field>
+	<field name="act_estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="act_estado"/>
+	</field>
+	<field name="act_ofc_cod" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="act_ofc_cod"/>
+	</field>
 	<field name="ofc_des" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="ofc_des"/>
 	</field>
@@ -124,7 +140,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PARTIDA]]></text>
+				<text><![CDATA[IMPORTE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="510" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="c2b13393-0819-4941-9078-f7b46bd944eb"/>
@@ -136,29 +152,53 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement x="0" y="2" width="50" height="20" uuid="8bc72c24-efcd-44a0-ad2d-d6e7fbf03b8d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="2" width="40" height="20" uuid="201b3e00-d9bf-4e4d-b13c-6f356073578a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_can}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="160" y="2" width="280" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="115e70fd-f675-47ac-b5e9-61360fb141a4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_des_det}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="2" width="48" height="20" uuid="2e2aa9ff-3e4f-4847-9e55-0cc00475d2e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_imp_bs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="2" width="60" height="20" uuid="2bff362b-3767-406d-9f4d-70bcd03c5b47"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_estado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="2" width="50" height="20" uuid="5f8e749a-a1aa-44a8-8cbf-ac85c09eec47"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{act_des}]]></textFieldExpression>
+			</textField>
 			<line>
 				<reportElement x="0" y="0" width="570" height="1" forecolor="#999393" uuid="70d04060-a47d-4db2-83e2-b91348cbdea3"/>
 			</line>
-			<subreport>
-				<reportElement x="-21" y="0" width="612" height="20" uuid="df8dfb62-c567-48a4-b369-de854dede489"/>
-				<subreportParameter name="test">
-					<subreportParameterExpression><![CDATA[$P{test}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["activos.jasper"]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="20">
-			<subreport>
-				<reportElement x="-20" y="0" width="612" height="20" uuid="e49d27d3-0f5f-420d-83aa-c6d0d0a58906"/>
-				<subreportParameter name="test">
-					<subreportParameterExpression><![CDATA[$P{test}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["revalorizar.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

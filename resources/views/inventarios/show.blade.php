@@ -34,7 +34,7 @@
         <tbody>
         @foreach($detalle as $det)
           <tr>
-            <td class="text-center">{{ $det->exi_act }}</td>
+            <td class="text-center">{{($det->exi_act) ? 'Existe' : 'No Existe'}} </td>
             <td class="text-center">{{ $det->act_codigo }}</td>
             <td class="text-center">{{ $det->act_des_det }}</td>
             <td class="text-center">{{ $det->act_can }}</td>

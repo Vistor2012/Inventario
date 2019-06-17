@@ -21,7 +21,7 @@ class ActivoRev extends Model
         'act_estado',
         'act_ges',
         'act_ofc_cod',
-        'estado',
+        'uni-med',
         'fec_cre',
         'act_imp_bs'
     ];
